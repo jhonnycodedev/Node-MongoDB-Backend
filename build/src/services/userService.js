@@ -21,7 +21,9 @@ class UserService {
         });
         try {
             await user.save();
-            return "User registered successfully";
+            // Generate a JWT token
+            const token = jsonwebtoken_1.default.sign({ id: user._id, email: user.email }, config_1.default.jwtSecret, { expiresIn: "15m" });
+            return token;
         }
         catch (error) {
             return JSON.stringify(error);
@@ -39,7 +41,7 @@ class UserService {
         }
         // Generate a JWT token
         const token = jsonwebtoken_1.default.sign({ id: user._id, email: user.email }, config_1.default.jwtSecret, {
-            expiresIn: "1h",
+            expiresIn: "15m",
         });
         return token;
     }

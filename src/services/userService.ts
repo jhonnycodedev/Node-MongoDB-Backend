@@ -23,7 +23,15 @@ export class UserService {
 
     try {
       await user.save();
-      return "User registered successfully";
+  
+      // Generate a JWT token
+      const token = jwt.sign(
+        { id: user._id, email: user.email },
+        config.jwtSecret,
+        { expiresIn: "15m" }
+      );
+  
+      return token;
     } catch (error: any) {
       return JSON.stringify(error);
     }
@@ -43,7 +51,7 @@ export class UserService {
 
     // Generate a JWT token
     const token = jwt.sign({ id: user._id, email: user.email }, config.jwtSecret, {
-      expiresIn: "1h",
+      expiresIn: "15m",
     });
 
     return token;

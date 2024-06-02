@@ -12,7 +12,7 @@ const userController = new userController_1.default();
 router.post("/register", async (req, res) => {
     try {
         const response = await userController.register(req.body);
-        return res.status(200).send(response === "User registered successfully");
+        return res.status(200).send(response);
     }
     catch (error) {
         res.status(400).send(error);

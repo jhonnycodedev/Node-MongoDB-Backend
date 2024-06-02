@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+//index.ts
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const database_1 = require("./services/database");
@@ -38,6 +39,11 @@ app.use('/api/profiles', profile_1.default);
 app.use("/api/users", user_1.default);
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
+});
+// Endpoint para retornar o segredo JWT
+app.get("/jwt-secret", (req, res) => {
+    const jwtSecret = process.env.JWT_SECRET || "your_jwt_secret_key"; // Use um valor padrão se não houver um valor no env
+    res.json({ secret: jwtSecret });
 });
 // Iniciar o servidor
 app.listen(PORT, () => {

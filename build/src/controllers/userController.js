@@ -20,7 +20,15 @@ let UserController = class UserController {
         this.userService = new userService_1.UserService();
     }
     async register(body) {
-        return this.userService.createUser(body);
+        try {
+            const token = await this.userService.createUser(body);
+            return { token: token };
+        }
+        catch (error) {
+            return {
+                error: error.message,
+            };
+        }
     }
     async login(body) {
         try {

@@ -14,15 +14,25 @@ export default class UserController {
 
   @Post("/register")
   public async register(@Body() body: {
-    username: string;
-    email: string;
-    password: string;
-  }): Promise<string> {
-    return this.userService.createUser(body);
+  username: string;
+  email: string;
+  password: string;
+  }): Promise<JsonObject> {
+    try {
+      const token = await this.userService.createUser(body);
+      return { token: token };
+    } catch (error: any) {
+      return {
+        error: error.message,
+    };
   }
+}
 
   @Post("/login")
-  public async login(@Body() body: { email: string; password: string }): Promise<JsonObject> {
+  public async login(@Body() body: { 
+    email: string; 
+    password: string 
+  }): Promise<JsonObject> {
     try {
       const token = await this.userService.loginUser(body.email, body.password);
       return { token: token };
