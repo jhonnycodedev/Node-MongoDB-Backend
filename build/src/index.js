@@ -40,11 +40,6 @@ app.use("/api/users", user_1.default);
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
-// Endpoint para retornar o segredo JWT
-app.get("/jwt-secret", (req, res) => {
-    const jwtSecret = process.env.JWT_SECRET || "your_jwt_secret_key"; // Use um valor padrão se não houver um valor no env
-    res.json({ secret: jwtSecret });
-});
 // Iniciar o servidor
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}/`);

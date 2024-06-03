@@ -20,7 +20,7 @@ export default class UserController {
   }): Promise<JsonObject> {
     try {
       const token = await this.userService.createUser(body);
-      return { token: token };
+      return { token: token, message: true };
     } catch (error: any) {
       return {
         error: error.message,
@@ -35,7 +35,7 @@ export default class UserController {
   }): Promise<JsonObject> {
     try {
       const token = await this.userService.loginUser(body.email, body.password);
-      return { token: token };
+      return { token: token, message: true };
     } catch (error: any) {
       return {
         error: error.message,

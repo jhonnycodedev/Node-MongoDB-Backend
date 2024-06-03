@@ -22,7 +22,7 @@ let UserController = class UserController {
     async register(body) {
         try {
             const token = await this.userService.createUser(body);
-            return { token: token };
+            return { token: token, message: true };
         }
         catch (error) {
             return {
@@ -33,7 +33,7 @@ let UserController = class UserController {
     async login(body) {
         try {
             const token = await this.userService.loginUser(body.email, body.password);
-            return { token: token };
+            return { token: token, message: true };
         }
         catch (error) {
             return {

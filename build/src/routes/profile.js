@@ -11,9 +11,8 @@ const router = express_1.default.Router();
 const profileController = new profileController_1.default();
 router.post("/create", auth_1.authenticateJWT, async (req, res) => {
     try {
-        const response = await profileController.create(req.body);
-        res.status(200).send(response === "profile created sucessfully");
-        res.status(401).send(response === "Unauthorized");
+        const response = await profileController.create(req.body, req);
+        res.status(200).send(response);
     }
     catch (error) {
         res.status(400).send(error);

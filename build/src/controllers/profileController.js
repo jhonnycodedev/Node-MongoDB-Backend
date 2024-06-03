@@ -19,8 +19,17 @@ let ProfileController = class ProfileController {
     constructor() {
         this.profileService = new profileService_1.ProfileService();
     }
-    async create(body) {
-        return this.profileService.createProfile(body);
+    async create(body, req // Adicione o decorator @Request para obter acesso ao objeto de requisição
+    ) {
+        try {
+            const userId = req.user.id; // Obtenha o ID do usuário decodificado do token
+            const profileData = Object.assign(Object.assign({}, body), { userId }); // Adicione o userId aos dados do perfil
+            const result = await this.profileService.createProfile(profileData);
+            return result; // Retorna o resultado da criação do perfil
+        }
+        catch (error) {
+            return { message: error.message || "Unknown error" }; // Retorna uma mensagem de erro em caso de falha
+        }
     }
     async all() {
         try {
@@ -33,15 +42,14 @@ let ProfileController = class ProfileController {
             };
         }
     }
-    async findById(id) {
+    async findById(req) {
         try {
-            const user = await this.profileService.findProfileById(id);
-            return { user: user };
+            const userId = req.user.id; // Obtém o ID do usuário do token
+            const user = await this.profileService.findProfileById(userId);
+            return { user };
         }
         catch (error) {
-            return {
-                error: error.message,
-            };
+            return { error: error.message };
         }
     }
     async update(body) {
@@ -93,8 +101,9 @@ __decorate([
     (0, tsoa_1.Post)("/create"),
     (0, tsoa_1.Security)("bearerAuth"),
     __param(0, (0, tsoa_1.Body)()),
+    __param(1, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "create", null);
 __decorate([
@@ -105,10 +114,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "all", null);
 __decorate([
-    (0, tsoa_1.Get)("/findById/{id}"),
+    (0, tsoa_1.Get)("/findById"),
     (0, tsoa_1.Security)("bearerAuth"),
+    __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "findById", null);
 __decorate([

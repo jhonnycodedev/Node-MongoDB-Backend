@@ -259,7 +259,16 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "string"
+									"properties": {
+										"result": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
 								}
 							}
 						}
@@ -277,9 +286,6 @@
 						"application/json": {
 							"schema": {
 								"properties": {
-									"userId": {
-										"type": "string"
-									},
 									"image": {
 										"type": "string"
 									},
@@ -299,39 +305,22 @@
 										"type": "object"
 									},
 									"certifications": {
-										"items": {
-											"type": "string"
-										},
-										"type": "array"
-									},
-									"education": {
-										"items": {
-											"type": "string"
-										},
-										"type": "array"
-									},
-									"skills": {
-										"items": {
-											"type": "string"
-										},
-										"type": "array"
-									},
-									"description": {
 										"type": "string"
 									},
-									"name": {
+									"education": {
+										"type": "string"
+									},
+									"skills": {
+										"type": "string"
+									},
+									"description": {
 										"type": "string"
 									}
 								},
 								"required": [
-									"userId",
 									"image",
-									"contact",
-									"certifications",
 									"education",
-									"skills",
-									"description",
-									"name"
+									"description"
 								],
 								"type": "object"
 							}
@@ -363,7 +352,7 @@
 				"parameters": []
 			}
 		},
-		"/api/profiles/findById/{id}": {
+		"/api/profiles/findById": {
 			"get": {
 				"operationId": "FindById",
 				"responses": {
@@ -372,7 +361,28 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/JsonObject"
+									"anyOf": [
+										{
+											"properties": {
+												"user": {}
+											},
+											"required": [
+												"user"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"error": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"error"
+											],
+											"type": "object"
+										}
+									]
 								}
 							}
 						}
@@ -383,16 +393,7 @@
 						"bearerAuth": []
 					}
 				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
+				"parameters": []
 			}
 		},
 		"/api/profiles/update": {
@@ -458,9 +459,6 @@
 										"type": "array"
 									},
 									"description": {
-										"type": "string"
-									},
-									"name": {
 										"type": "string"
 									},
 									"id": {

@@ -3,25 +3,32 @@
 import { ProfileModel } from "../models/Profile";
 
 export class ProfileService {
-  public async createProfile(profileData: {
-    name: string;
-    description: string;
-    skills: string[];
-    education: string[];
-    certifications: string[];
-    contact: { github: string; linkedin: string };
-    image: string;
-    userId: string;
-  }): Promise<string> {
-    const profile = new ProfileModel(profileData);
 
+
+  public async createProfile(profileData: {
+    userId: string;
+    description: string;
+    skills ?: string;
+    education: string;
+    certifications ?: string;
+    contact ?: { github: string; linkedin: string };
+    image: string;
+  }): Promise<{ message: string; result?: any }> { // Ajuste o tipo de retorno
     try {
-      await profile.save();
-      return "OK";
-    } catch (error) {
-      return JSON.stringify(error);
+      const profile = new ProfileModel(profileData);
+      const result = await profile.save();
+      
+      return { message: "OK", result };
+    } catch (error: any) { // Especifica o tipo do erro como Error
+      return { message: error.message || "Unknown error" };
     }
   }
+  
+  
+  
+  
+  
+
 
   public async getAllProfiles() {
     try {
@@ -44,7 +51,6 @@ export class ProfileService {
 
   public async updateProfile(profileData: {
     id: string;
-    name?: string;
     description?: string;
     skills?: string[];
     education?: string[];
@@ -55,7 +61,6 @@ export class ProfileService {
   }) {
     try {
       const result = await ProfileModel.findByIdAndUpdate(profileData.id, {
-        name: profileData.name,
         description: profileData.description,
         skills: profileData.skills,
         education: profileData.education,

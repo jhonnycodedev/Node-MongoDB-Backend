@@ -1,6 +1,6 @@
 // controllers/profileController.ts
 
-import { Body, Get, Patch, Delete, Post, Route, Security} from "tsoa";
+import { Body, Get, Patch, Delete, Post, Route, Security, Request} from "tsoa";
 import { ProfileService } from "../services/profileService";
 import { JsonObject } from "swagger-ui-express";
 
@@ -14,19 +14,31 @@ export default class ProfileController {
   }
 
   @Post("/create")
-  @Security("bearerAuth")
-  public async create(@Body() body: {
-    name: string;
+@Security("bearerAuth")
+public async create(
+  @Body() body: {
     description: string;
-    skills: string[];
-    education: string[];
-    certifications: string[];
-    contact: { github: string; linkedin: string };
+    skills ?: string;
+    education: string;
+    certifications ?: string;
+    contact ?: { github: string; linkedin: string };
     image: string;
-    userId: string;
-  }): Promise<string> {
-    return this.profileService.createProfile(body);
+  },
+  @Request() req: any // Adicione o decorator @Request para obter acesso ao objeto de requisição
+): Promise<{ message: string; result?: any }> { // Ajuste o tipo de retorno
+  try {
+    const userId = req.user.id; // Obtenha o ID do usuário decodificado do token
+
+    const profileData = { ...body, userId }; // Adicione o userId aos dados do perfil
+
+    const result = await this.profileService.createProfile(profileData);
+
+    return result; // Retorna o resultado da criação do perfil
+  } catch (error: any) {
+    return { message: error.message || "Unknown error" }; // Retorna uma mensagem de erro em caso de falha
   }
+}
+
 
   @Get("/getAll")
   @Security("bearerAuth")
@@ -41,24 +53,23 @@ export default class ProfileController {
     }
   }
   
-  @Get("/findById/{id}")
-  @Security("bearerAuth") 
-  public async findById(id: string): Promise<JsonObject> {
-    try {
-      const user = await this.profileService.findProfileById(id);
-      return { user: user };
-    } catch (error: any) {
-      return {
-        error: error.message,
-      };
-    }
+  @Get("/findById")
+@Security("bearerAuth")
+public async findById(@Request() req: any): Promise<{ user: any } | { error: string }> {
+  try {
+    const userId = req.user.id; // Obtém o ID do usuário do token
+    const user = await this.profileService.findProfileById(userId);
+    return { user };
+  } catch (error: any) {
+    return { error: error.message };
   }
+}
+
 
   @Patch("/update")
   @Security("bearerAuth")
   public async update(@Body() body: {
     id: string;
-    name?: string;
     description?: string;
     skills?: string[];
     education?: string[];

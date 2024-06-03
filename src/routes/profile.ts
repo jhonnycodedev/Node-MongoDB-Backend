@@ -7,11 +7,11 @@ import { authenticateJWT } from "../../config/auth";
 const router = express.Router();
 const profileController = new ProfileController();
 
+
 router.post("/create", authenticateJWT, async (req: Request, res: Response) => {
   try {
-    const response = await profileController.create(req.body);
-    res.status(200).send(response==="profile created sucessfully");
-    res.status(401).send(response==="Unauthorized");
+    const response = await profileController.create(req.body, req);
+    res.status(200).send(response);
   } catch (error) {
     res.status(400).send(error);
   }

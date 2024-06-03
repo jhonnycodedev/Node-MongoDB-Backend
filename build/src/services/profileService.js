@@ -5,13 +5,13 @@ exports.ProfileService = void 0;
 const Profile_1 = require("../models/Profile");
 class ProfileService {
     async createProfile(profileData) {
-        const profile = new Profile_1.ProfileModel(profileData);
         try {
-            await profile.save();
-            return "OK";
+            const profile = new Profile_1.ProfileModel(profileData);
+            const result = await profile.save();
+            return { message: "OK", result };
         }
-        catch (error) {
-            return JSON.stringify(error);
+        catch (error) { // Especifica o tipo do erro como Error
+            return { message: error.message || "Unknown error" };
         }
     }
     async getAllProfiles() {
@@ -35,7 +35,6 @@ class ProfileService {
     async updateProfile(profileData) {
         try {
             const result = await Profile_1.ProfileModel.findByIdAndUpdate(profileData.id, {
-                name: profileData.name,
                 description: profileData.description,
                 skills: profileData.skills,
                 education: profileData.education,
