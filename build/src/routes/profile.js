@@ -36,6 +36,19 @@ router.get("/findById/:id", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).send(error);
     }
 });
+// Atualize a rota findByToken para usar o token decifrado do middleware de autenticação
+router.get("/findByToken", auth_1.authenticateJWT, async (req, res) => {
+    try {
+        // O middleware authenticateJWT adiciona o usuário ao objeto de requisição
+        const userId = req.user.id; // Certifique-se de que o tipo req é coerente com AuthenticatedRequest
+        console.log("User ID from request:", userId);
+        const response = await profileController.findById(userId); // Use um método que busca pelo userId
+        res.status(200).send(response);
+    }
+    catch (error) {
+        res.status(400).send(error);
+    }
+});
 router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
     try {
         const response = await profileController.update(req.body);

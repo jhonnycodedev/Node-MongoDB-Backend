@@ -352,7 +352,7 @@
 				"parameters": []
 			}
 		},
-		"/api/profiles/findById": {
+		"/api/profiles/findById/{id}": {
 			"get": {
 				"operationId": "FindById",
 				"responses": {
@@ -361,28 +361,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"user": {}
-											},
-											"required": [
-												"user"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
+									"$ref": "#/components/schemas/JsonObject"
 								}
 							}
 						}
@@ -393,7 +372,16 @@
 						"bearerAuth": []
 					}
 				],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/api/profiles/update": {

@@ -39,10 +39,13 @@ export class ProfileService {
     }
   }
 
-  public async findProfileById(id: string) {
+  async findProfileByUserId(userId: string) {
     try {
-      const user = await ProfileModel.findById(id);
-      return user;
+      const profile = await ProfileModel.findOne({ userId });
+      if (!profile) {
+        throw new Error("Profile not found");
+      }
+      return profile;
     } catch (error: any) {
       throw new Error(error.message);
     }

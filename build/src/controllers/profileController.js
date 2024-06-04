@@ -42,14 +42,15 @@ let ProfileController = class ProfileController {
             };
         }
     }
-    async findById(req) {
+    async findById(id) {
         try {
-            const userId = req.user.id; // Obtém o ID do usuário do token
-            const user = await this.profileService.findProfileById(userId);
-            return { user };
+            const user = await this.profileService.findProfileByUserId(id);
+            return { user: user };
         }
         catch (error) {
-            return { error: error.message };
+            return {
+                error: error.message
+            };
         }
     }
     async update(body) {
@@ -114,11 +115,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "all", null);
 __decorate([
-    (0, tsoa_1.Get)("/findById"),
+    (0, tsoa_1.Get)("/findById/{id}"),
     (0, tsoa_1.Security)("bearerAuth"),
-    __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "findById", null);
 __decorate([

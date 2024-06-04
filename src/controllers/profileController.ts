@@ -53,17 +53,18 @@ public async create(
     }
   }
   
-  @Get("/findById")
-@Security("bearerAuth")
-public async findById(@Request() req: any): Promise<{ user: any } | { error: string }> {
-  try {
-    const userId = req.user.id; // Obtém o ID do usuário do token
-    const user = await this.profileService.findProfileById(userId);
-    return { user };
-  } catch (error: any) {
-    return { error: error.message };
+  @Get("/findById/{id}")
+  @Security("bearerAuth")
+  public async findById(id: string): Promise<JsonObject> {
+    try {
+      const user = await this.profileService.findProfileByUserId(id);
+      return { user: user };
+    } catch (error: any) {
+      return {
+        error: error.message
+      };
+    }
   }
-}
 
 
   @Patch("/update")

@@ -23,10 +23,13 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
-    async findProfileById(id) {
+    async findProfileByUserId(userId) {
         try {
-            const user = await Profile_1.ProfileModel.findById(id);
-            return user;
+            const profile = await Profile_1.ProfileModel.findOne({ userId });
+            if (!profile) {
+                throw new Error("Profile not found");
+            }
+            return profile;
         }
         catch (error) {
             throw new Error(error.message);
