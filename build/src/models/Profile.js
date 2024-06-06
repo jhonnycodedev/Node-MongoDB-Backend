@@ -8,6 +8,11 @@ exports.ProfileModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 // Define o esquema do Mongoose com base na interface
 const profileSchema = new mongoose_1.default.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
     description: {
         type: String,
         required: true
@@ -24,15 +29,13 @@ const profileSchema = new mongoose_1.default.Schema({
         type: String,
         required: false
     },
-    contact: {
-        github: {
-            type: String,
-            required: false
-        },
-        linkedin: {
-            type: String,
-            required: false
-        },
+    github: {
+        type: String,
+        required: false
+    },
+    linkedin: {
+        type: String,
+        required: false
     },
     image: {
         type: String,

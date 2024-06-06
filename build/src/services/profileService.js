@@ -38,13 +38,15 @@ class ProfileService {
     async updateProfile(profileData) {
         try {
             const result = await Profile_1.ProfileModel.findByIdAndUpdate(profileData.id, {
+                userId: profileData.userId,
+                username: profileData.username,
                 description: profileData.description,
                 skills: profileData.skills,
                 education: profileData.education,
                 certifications: profileData.certifications,
-                contact: profileData.contact,
+                github: profileData.github,
+                linkedin: profileData.linkedin,
                 image: profileData.image,
-                userId: profileData.userId,
             }, { new: true });
             return result;
         }
@@ -63,7 +65,7 @@ class ProfileService {
     }
     async getProfileFields() {
         try {
-            const profiles = await Profile_1.ProfileModel.find().select("name description skills education certifications contact image userId -_id");
+            const profiles = await Profile_1.ProfileModel.find().select("username description skills education certifications contact image userId -_id");
             return profiles;
         }
         catch (error) {
@@ -72,7 +74,7 @@ class ProfileService {
     }
     async queryProfiles() {
         try {
-            const profiles = await Profile_1.ProfileModel.find().select("name description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
+            const profiles = await Profile_1.ProfileModel.find().select("username description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
             return profiles;
         }
         catch (error) {

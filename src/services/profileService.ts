@@ -7,12 +7,14 @@ export class ProfileService {
 
   public async createProfile(profileData: {
     userId: string;
+    username:string;
     description: string;
     skills ?: string;
     education: string;
     certifications ?: string;
-    contact ?: { github: string; linkedin: string };
-    image: string;
+    github: string; 
+    linkedin: string ;
+    image?: string;
   }): Promise<{ message: string; result?: any }> { // Ajuste o tipo de retorno
     try {
       const profile = new ProfileModel(profileData);
@@ -24,11 +26,6 @@ export class ProfileService {
     }
   }
   
-  
-  
-  
-  
-
 
   public async getAllProfiles() {
     try {
@@ -54,23 +51,28 @@ export class ProfileService {
 
   public async updateProfile(profileData: {
     id: string;
+    username?:string;
     description?: string;
-    skills?: string[];
-    education?: string[];
-    certifications?: string[];
-    contact?: { github?: string; linkedin?: string };
+    skills?: string;
+    education?: string;
+    certifications?: string;
+    github?: string;
+    linkedin?: string;
     image?: string;
     userId?: string;
   }) {
     try {
       const result = await ProfileModel.findByIdAndUpdate(profileData.id, {
+        userId: profileData.userId,
+        username: profileData.username,
         description: profileData.description,
         skills: profileData.skills,
         education: profileData.education,
         certifications: profileData.certifications,
-        contact: profileData.contact,
+        github: profileData.github,
+        linkedin: profileData.linkedin,
         image: profileData.image,
-        userId: profileData.userId,
+        
       }, { new: true });
 
       return result;
@@ -90,7 +92,7 @@ export class ProfileService {
 
   public async getProfileFields() {
     try {
-      const profiles = await ProfileModel.find().select("name description skills education certifications contact image userId -_id");
+      const profiles = await ProfileModel.find().select("username description skills education certifications contact image userId -_id");
       return profiles;
     } catch (error: any) {
       throw new Error(error.message);
@@ -99,7 +101,7 @@ export class ProfileService {
 
   public async queryProfiles() {
     try {
-      const profiles = await ProfileModel.find().select("name description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
+      const profiles = await ProfileModel.find().select("username description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
       return profiles;
     } catch (error: any) {
       throw new Error(error.message);

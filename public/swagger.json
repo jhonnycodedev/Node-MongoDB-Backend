@@ -13,7 +13,13 @@
 				"additionalProperties": {}
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"bearerAuth": {
+				"type":"http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			  }
+		}
 	},
 	"info": {
 		"title": "hello-express-mongo",
@@ -289,20 +295,11 @@
 									"image": {
 										"type": "string"
 									},
-									"contact": {
-										"properties": {
-											"linkedin": {
-												"type": "string"
-											},
-											"github": {
-												"type": "string"
-											}
-										},
-										"required": [
-											"linkedin",
-											"github"
-										],
-										"type": "object"
+									"linkedin": {
+										"type": "string"
+									},
+									"github": {
+										"type": "string"
 									},
 									"certifications": {
 										"type": "string"
@@ -315,12 +312,17 @@
 									},
 									"description": {
 										"type": "string"
+									},
+									"username": {
+										"type": "string"
 									}
 								},
 								"required": [
-									"image",
+									"linkedin",
+									"github",
 									"education",
-									"description"
+									"description",
+									"username"
 								],
 								"type": "object"
 							}
@@ -417,36 +419,25 @@
 									"image": {
 										"type": "string"
 									},
-									"contact": {
-										"properties": {
-											"linkedin": {
-												"type": "string"
-											},
-											"github": {
-												"type": "string"
-											}
-										},
-										"type": "object"
+									"linkedin": {
+										"type": "string"
+									},
+									"github": {
+										"type": "string"
 									},
 									"certifications": {
-										"items": {
-											"type": "string"
-										},
-										"type": "array"
+										"type": "string"
 									},
 									"education": {
-										"items": {
-											"type": "string"
-										},
-										"type": "array"
+										"type": "string"
 									},
 									"skills": {
-										"items": {
-											"type": "string"
-										},
-										"type": "array"
+										"type": "string"
 									},
 									"description": {
+										"type": "string"
+									},
+									"username": {
 										"type": "string"
 									},
 									"id": {
@@ -454,6 +445,8 @@
 									}
 								},
 								"required": [
+									"userId",
+									"username",
 									"id"
 								],
 								"type": "object"

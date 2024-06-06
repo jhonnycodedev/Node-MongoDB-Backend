@@ -17,12 +17,14 @@ export default class ProfileController {
 @Security("bearerAuth")
 public async create(
   @Body() body: {
+    username:string;
     description: string;
     skills ?: string;
     education: string;
     certifications ?: string;
-    contact ?: { github: string; linkedin: string };
-    image: string;
+    github: string; 
+    linkedin: string;
+    image?: string;
   },
   @Request() req: any // Adicione o decorator @Request para obter acesso ao objeto de requisição
 ): Promise<{ message: string; result?: any }> { // Ajuste o tipo de retorno
@@ -71,13 +73,15 @@ public async create(
   @Security("bearerAuth")
   public async update(@Body() body: {
     id: string;
+    username:string;
     description?: string;
-    skills?: string[];
-    education?: string[];
-    certifications?: string[];
-    contact?: { github?: string; linkedin?: string };
+    skills?: string;
+    education?: string;
+    certifications?: string;
+    github?: string; 
+    linkedin?: string;
     image?: string;
-    userId?: string;
+    userId: string;
   }): Promise<JsonObject> {
     try {
       const result = await this.profileService.updateProfile(body);

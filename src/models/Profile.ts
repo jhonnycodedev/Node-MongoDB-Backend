@@ -4,7 +4,12 @@ import mongoose from "mongoose"
 
 // Define o esquema do Mongoose com base na interface
 const profileSchema = new mongoose.Schema({
-
+  
+  username: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
   description: { 
     type: String, 
     required: true 
@@ -21,16 +26,16 @@ const profileSchema = new mongoose.Schema({
     type: String, 
     required: false 
   },
-  contact: {
-    github: { 
-      type: String, 
-      required: false 
-    },
-    linkedin: { 
-      type: String, 
-      required: false 
-    },
+ 
+  github: { 
+    type: String, 
+    required: false 
   },
+  linkedin: { 
+    type: String, 
+    required: false 
+  },
+  
   image: { 
     type: String, 
     required: false

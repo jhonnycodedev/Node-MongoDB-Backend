@@ -15,7 +15,6 @@ class UserService {
         const salt = await bcrypt_1.default.genSalt(10);
         const hashedPassword = await bcrypt_1.default.hash(userData.password, salt);
         const user = new User_1.UserModel({
-            username: userData.username,
             email: userData.email,
             password: hashedPassword,
         });
@@ -71,7 +70,6 @@ class UserService {
                 userData.password = await bcrypt_1.default.hash(userData.password, salt);
             }
             const result = await User_1.UserModel.findByIdAndUpdate(userData.id, {
-                username: userData.username,
                 email: userData.email,
                 password: userData.password,
             }, { new: true });
