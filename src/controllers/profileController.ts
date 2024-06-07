@@ -4,6 +4,18 @@ import { Body, Get, Patch, Delete, Post, Route, Security, Request} from "tsoa";
 import { ProfileService } from "../services/profileService";
 import { JsonObject } from "swagger-ui-express";
 
+interface ProfileData {
+  id: string;
+  username?: string;
+  description?: string;
+  skills?: string;
+  education?: string;
+  certifications?: string;
+  github?: string;
+  linkedin?: string;
+  image?: string;
+  userId: string;
+}
 
 @Route("api/profiles")
 export default class ProfileController {
@@ -13,22 +25,17 @@ export default class ProfileController {
     this.profileService = new ProfileService();
   }
 
-  @Post("/create")
+@Post("/create")
 @Security("bearerAuth")
 public async create(
-  @Body() body: {
-    username:string;
-    description: string;
-    skills ?: string;
-    education: string;
-    certifications ?: string;
-    github: string; 
-    linkedin: string;
-    image?: string;
-  },
+
+  @Body() body: ProfileData,
   @Request() req: any // Adicione o decorator @Request para obter acesso ao objeto de requisição
+
 ): Promise<{ message: string; result?: any }> { // Ajuste o tipo de retorno
+
   try {
+    
     const userId = req.user.id; // Obtenha o ID do usuário decodificado do token
 
     const profileData = { ...body, userId }; // Adicione o userId aos dados do perfil
@@ -70,28 +77,18 @@ public async create(
 
 
   @Patch("/update")
-  @Security("bearerAuth")
-  public async update(@Body() body: {
-    id: string;
-    username:string;
-    description?: string;
-    skills?: string;
-    education?: string;
-    certifications?: string;
-    github?: string; 
-    linkedin?: string;
-    image?: string;
-    userId: string;
-  }): Promise<JsonObject> {
-    try {
-      const result = await this.profileService.updateProfile(body);
-      return { result: result };
-    } catch (error: any) {
-      return {
-        error: error.message,
-      };
-    }
+@Security("bearerAuth")
+public async update(@Body() body: ProfileData): Promise<JsonObject> {
+  try {
+    const result = await this.profileService.updateProfile(body);
+    return { result: result };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
   }
+}
+
 
   @Delete("/delete/:id")
   @Security("bearerAuth")

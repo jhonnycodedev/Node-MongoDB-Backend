@@ -54,11 +54,11 @@ router.patch("/update", authenticateJWT, async (req: Request, res: Response) => 
   try {
     const response = await profileController.update(req.body);
     res.status(200).send(response);
-  } catch (error) {
-    res.status(400).send(error);
-    
+  } catch (error: any) {
+    res.status(400).send({ error: error.message });
   }
 });
+
 
 router.delete("/delete/:id", authenticateJWT, async (req: Request, res: Response) => {
   try {

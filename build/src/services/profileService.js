@@ -37,17 +37,13 @@ class ProfileService {
     }
     async updateProfile(profileData) {
         try {
-            const result = await Profile_1.ProfileModel.findByIdAndUpdate(profileData.id, {
-                userId: profileData.userId,
-                username: profileData.username,
-                description: profileData.description,
-                skills: profileData.skills,
-                education: profileData.education,
-                certifications: profileData.certifications,
-                github: profileData.github,
-                linkedin: profileData.linkedin,
-                image: profileData.image,
-            }, { new: true });
+            const updateData = {};
+            Object.keys(profileData).forEach((key) => {
+                if (profileData[key] !== undefined && key !== 'id') {
+                    updateData[key] = profileData[key];
+                }
+            });
+            const result = await Profile_1.ProfileModel.findByIdAndUpdate(profileData.id, updateData, { new: true });
             return result;
         }
         catch (error) {

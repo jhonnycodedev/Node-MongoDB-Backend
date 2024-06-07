@@ -55,7 +55,7 @@ router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).send(response);
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({ error: error.message });
     }
 });
 router.delete("/delete/:id", auth_1.authenticateJWT, async (req, res) => {

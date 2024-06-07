@@ -11,14 +11,54 @@
 				"properties": {},
 				"type": "object",
 				"additionalProperties": {}
+			},
+			"ProfileData": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"skills": {
+						"type": "string"
+					},
+					"education": {
+						"type": "string"
+					},
+					"certifications": {
+						"type": "string"
+					},
+					"github": {
+						"type": "string"
+					},
+					"linkedin": {
+						"type": "string"
+					},
+					"image": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
 			"bearerAuth": {
-				"type":"http",
-				"scheme": "bearer",
-				"bearerFormat": "JWT"
-			  }
+      		"type":"http",
+      		"scheme": "bearer",
+      		"bearerFormat": "JWT"
+    		}
 		}
 	},
 	"info": {
@@ -291,40 +331,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"properties": {
-									"image": {
-										"type": "string"
-									},
-									"linkedin": {
-										"type": "string"
-									},
-									"github": {
-										"type": "string"
-									},
-									"certifications": {
-										"type": "string"
-									},
-									"education": {
-										"type": "string"
-									},
-									"skills": {
-										"type": "string"
-									},
-									"description": {
-										"type": "string"
-									},
-									"username": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"linkedin",
-									"github",
-									"education",
-									"description",
-									"username"
-								],
-								"type": "object"
+								"$ref": "#/components/schemas/ProfileData"
 							}
 						}
 					}
@@ -412,44 +419,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"properties": {
-									"userId": {
-										"type": "string"
-									},
-									"image": {
-										"type": "string"
-									},
-									"linkedin": {
-										"type": "string"
-									},
-									"github": {
-										"type": "string"
-									},
-									"certifications": {
-										"type": "string"
-									},
-									"education": {
-										"type": "string"
-									},
-									"skills": {
-										"type": "string"
-									},
-									"description": {
-										"type": "string"
-									},
-									"username": {
-										"type": "string"
-									},
-									"id": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"userId",
-									"username",
-									"id"
-								],
-								"type": "object"
+								"$ref": "#/components/schemas/ProfileData"
 							}
 						}
 					}

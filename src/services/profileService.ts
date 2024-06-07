@@ -2,20 +2,24 @@
 
 import { ProfileModel } from "../models/Profile";
 
+interface ProfileData {
+  id: string;
+  username?: string;
+  description?: string;
+  skills?: string;
+  education?: string;
+  certifications?: string;
+  github?: string;
+  linkedin?: string;
+  image?: string;
+  userId: string;
+}
+
+
 export class ProfileService {
 
-
-  public async createProfile(profileData: {
-    userId: string;
-    username:string;
-    description: string;
-    skills ?: string;
-    education: string;
-    certifications ?: string;
-    github: string; 
-    linkedin: string ;
-    image?: string;
-  }): Promise<{ message: string; result?: any }> { // Ajuste o tipo de retorno
+  public async createProfile(profileData: ProfileData) {
+    
     try {
       const profile = new ProfileModel(profileData);
       const result = await profile.save();
@@ -49,36 +53,23 @@ export class ProfileService {
   }
 
 
-  public async updateProfile(profileData: {
-    id: string;
-    username?:string;
-    description?: string;
-    skills?: string;
-    education?: string;
-    certifications?: string;
-    github?: string;
-    linkedin?: string;
-    image?: string;
-    userId?: string;
-  }) {
-    try {
-      const result = await ProfileModel.findByIdAndUpdate(profileData.id, {
-        userId: profileData.userId,
-        username: profileData.username,
-        description: profileData.description,
-        skills: profileData.skills,
-        education: profileData.education,
-        certifications: profileData.certifications,
-        github: profileData.github,
-        linkedin: profileData.linkedin,
-        image: profileData.image,
-        
-      }, { new: true });
+  public async updateProfile(profileData: ProfileData){
 
-      return result;
-    } catch (error: any) {
-      throw new Error(error.message);
-    }
+    try {
+      const updateData: Partial<Omit<ProfileData, 'id'>> = {};
+    
+    (Object.keys(profileData) as (keyof ProfileData)[]).forEach((key) => {
+      if (profileData[key] !== undefined && key !== 'id') {
+        updateData[key] = profileData[key];
+      }
+    });
+
+    const result = await ProfileModel.findByIdAndUpdate(profileData.id, updateData, { new: true });
+
+    return result;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
   }
 
   public async deleteProfile(id: string) {
