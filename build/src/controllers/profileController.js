@@ -12,6 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a, _b, _c, _d, _e, _f, _g;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsoa_1 = require("tsoa");
 const profileService_1 = require("../services/profileService");
@@ -105,21 +106,21 @@ __decorate([
     __param(1, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", typeof (_a = typeof Promise !== "undefined" && Promise) === "function" ? _a : Object)
 ], ProfileController.prototype, "create", null);
 __decorate([
     (0, tsoa_1.Get)("/getAll"),
     (0, tsoa_1.Security)("bearerAuth"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
 ], ProfileController.prototype, "all", null);
 __decorate([
     (0, tsoa_1.Get)("/findById/{id}"),
     (0, tsoa_1.Security)("bearerAuth"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", typeof (_c = typeof Promise !== "undefined" && Promise) === "function" ? _c : Object)
 ], ProfileController.prototype, "findById", null);
 __decorate([
     (0, tsoa_1.Patch)("/update"),
@@ -127,26 +128,26 @@ __decorate([
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", typeof (_d = typeof Promise !== "undefined" && Promise) === "function" ? _d : Object)
 ], ProfileController.prototype, "update", null);
 __decorate([
     (0, tsoa_1.Delete)("/delete/:id"),
     (0, tsoa_1.Security)("bearerAuth"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", typeof (_e = typeof Promise !== "undefined" && Promise) === "function" ? _e : Object)
 ], ProfileController.prototype, "delete", null);
 __decorate([
     (0, tsoa_1.Get)("/fields"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", typeof (_f = typeof Promise !== "undefined" && Promise) === "function" ? _f : Object)
 ], ProfileController.prototype, "fields", null);
 __decorate([
     (0, tsoa_1.Get)("/query"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", typeof (_g = typeof Promise !== "undefined" && Promise) === "function" ? _g : Object)
 ], ProfileController.prototype, "query", null);
 ProfileController = __decorate([
     (0, tsoa_1.Route)("api/profiles"),
