@@ -11,7 +11,7 @@
   },
   "author": "jguimaraesdev",
   "license": "reserved",
-  "contact":"guimaraes286@gmail.com",
+  "contact": "guimaraes286@gmail.com",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

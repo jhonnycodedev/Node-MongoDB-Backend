@@ -53,13 +53,7 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {
-			"bearerAuth": {
-      		"type":"http",
-      		"scheme": "bearer",
-      		"bearerFormat": "JWT"
-    		}
-		}
+		"securitySchemes": {}
 	},
 	"info": {
 		"title": "hello-express-mongo",
