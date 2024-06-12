@@ -9,7 +9,11 @@ const User_1 = require("../models/User");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
+const profileService_1 = require("./profileService");
 class UserService {
+    constructor() {
+        this.profileService = new profileService_1.ProfileService(); // Inicialize o profileService
+    }
     async createUser(userData) {
         // Hash the password before saving the user
         const salt = await bcrypt_1.default.genSalt(10);
@@ -83,6 +87,9 @@ class UserService {
     }
     async deleteUser(id) {
         try {
+            // Primeiro, remova o perfil associado ao usuário
+            await this.profileService.deleteProfileByUserId(id);
+            // Em seguida, delete o próprio usuário
             const user = await User_1.UserModel.findByIdAndDelete(id);
             return user;
         }

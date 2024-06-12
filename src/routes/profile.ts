@@ -60,14 +60,6 @@ router.patch("/update", authenticateJWT, async (req: Request, res: Response) => 
 });
 
 
-router.delete("/delete/:id", authenticateJWT, async (req: Request, res: Response) => {
-  try {
-    const response = await profileController.delete(req.params.id);
-    res.status(200).send(response);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
 
 router.get("/fields", async (req: Request, res: Response) => {
   try {

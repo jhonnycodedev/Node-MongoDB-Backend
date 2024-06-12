@@ -4,8 +4,15 @@ import { UserModel } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "../../config";
-
+import { ProfileService } from "./profileService";
 export class UserService {
+
+  private profileService: ProfileService; // Adicione o profileService como propriedade
+  
+  constructor() {
+    this.profileService = new ProfileService(); // Inicialize o profileService
+  }
+
   public async createUser(userData: {
     name:string;
     lastname: string;
@@ -104,7 +111,12 @@ export class UserService {
 
   public async deleteUser(id: string) {
     try {
+      // Primeiro, remova o perfil associado ao usuário
+      await this.profileService.deleteProfileByUserId(id);
+
+      // Em seguida, delete o próprio usuário
       const user = await UserModel.findByIdAndDelete(id);
+
       return user;
     } catch (error: any) {
       throw new Error(error.message);

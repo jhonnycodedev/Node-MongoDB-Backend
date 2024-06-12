@@ -72,9 +72,9 @@ export class ProfileService {
   }
   }
 
-  public async deleteProfile(id: string) {
+  public async deleteProfileByUserId(userId: string) {
     try {
-      const profile = await ProfileModel.findByIdAndDelete(id);
+      const profile = await ProfileModel.findOneAndDelete({ userId });
       return profile;
     } catch (error: any) {
       throw new Error(error.message);

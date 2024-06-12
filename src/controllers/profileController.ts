@@ -2,6 +2,7 @@
 
 import { Body, Get, Patch, Delete, Post, Route, Security, Request} from "tsoa";
 import { ProfileService } from "../services/profileService";
+import { UserService } from "../services/userService";
 import { JsonObject } from "swagger-ui-express";
 
 interface ProfileData {
@@ -20,9 +21,11 @@ interface ProfileData {
 @Route("api/profiles")
 export default class ProfileController {
   private profileService: ProfileService;
+  private userService: UserService;
 
   constructor() {
     this.profileService = new ProfileService();
+    this.userService = new UserService()
   }
 
 @Post("/create")
@@ -90,18 +93,26 @@ public async update(@Body() body: ProfileData): Promise<JsonObject> {
 }
 
 
-  @Delete("/delete/:id")
-  @Security("bearerAuth")
-  public async delete(id: string): Promise<JsonObject> {
-    try {
-      const profile = await this.profileService.deleteProfile(id);
-      return { data: profile };
-    } catch (error: any) {
-      return {
-        error: error.message,
-      };
+@Delete("/delete/:id")
+@Security("bearerAuth")
+public async delete(@Request() req: any, id: string): Promise<JsonObject> {
+  try {
+    // Verifique se o perfil pertence ao usuário autenticado antes de excluir
+    const profile = await this.profileService.findProfileByUserId(id);
+    if (profile.userId !== req.user.id) {
+      throw new Error("Você não tem permissão para excluir este perfil");
     }
+
+    // Deleta o usuário e seus perfis associados em cascata
+    await this.userService.deleteUser(id);
+
+    return { message: "Usuário e perfil deletados com sucesso" };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
   }
+}
 
   @Get("/fields")
   public async fields(): Promise<JsonObject> {

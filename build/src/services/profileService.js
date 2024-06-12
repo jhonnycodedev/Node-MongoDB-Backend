@@ -50,9 +50,9 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
-    async deleteProfile(id) {
+    async deleteProfileByUserId(userId) {
         try {
-            const profile = await Profile_1.ProfileModel.findByIdAndDelete(id);
+            const profile = await Profile_1.ProfileModel.findOneAndDelete({ userId });
             return profile;
         }
         catch (error) {

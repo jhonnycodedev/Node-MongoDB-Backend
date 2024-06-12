@@ -15,9 +15,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsoa_1 = require("tsoa");
 const profileService_1 = require("../services/profileService");
+const userService_1 = require("../services/userService");
 let ProfileController = class ProfileController {
     constructor() {
         this.profileService = new profileService_1.ProfileService();
+        this.userService = new userService_1.UserService();
     }
     async create(body, req // Adicione o decorator @Request para obter acesso ao objeto de requisição
     ) {
@@ -64,10 +66,16 @@ let ProfileController = class ProfileController {
             };
         }
     }
-    async delete(id) {
+    async delete(req, id) {
         try {
-            const profile = await this.profileService.deleteProfile(id);
-            return { data: profile };
+            // Verifique se o perfil pertence ao usuário autenticado antes de excluir
+            const profile = await this.profileService.findProfileByUserId(id);
+            if (profile.userId !== req.user.id) {
+                throw new Error("Você não tem permissão para excluir este perfil");
+            }
+            // Deleta o usuário e seus perfis associados em cascata
+            await this.userService.deleteUser(id);
+            return { message: "Usuário e perfil deletados com sucesso" };
         }
         catch (error) {
             return {
@@ -132,8 +140,9 @@ __decorate([
 __decorate([
     (0, tsoa_1.Delete)("/delete/:id"),
     (0, tsoa_1.Security)("bearerAuth"),
+    __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "delete", null);
 __decorate([
