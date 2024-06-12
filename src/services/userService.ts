@@ -7,6 +7,8 @@ import config from "../../config";
 
 export class UserService {
   public async createUser(userData: {
+    name:string;
+    lastname: string;
     email: string;
     password: string;
   }): Promise<string> {
@@ -15,6 +17,8 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(userData.password, salt);
 
     const user = new UserModel({
+      name:userData.name,
+      lastname: userData.lastname,
       email: userData.email,
       password: hashedPassword,
     });
@@ -75,6 +79,8 @@ export class UserService {
 
   public async updateUser(userData: {
     id: string;
+    name?:string;
+    lastname?: string;
     email?: string;
     password?: string;
   }) {

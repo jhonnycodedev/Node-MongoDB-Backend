@@ -14,7 +14,8 @@ export default class UserController {
 
   @Post("/register")
   public async register(@Body() body: {
-  username: string;
+  name:string;
+  lastname: string;
   email: string;
   password: string;
   }): Promise<JsonObject> {
@@ -73,7 +74,8 @@ export default class UserController {
   @Security("bearerAuth") 
   public async update(@Body() body: {
     id: string;
-    username?: string;
+    name?:string;
+    lastname?: string;
     email?: string;
     password?: string;
   }): Promise<JsonObject> {
