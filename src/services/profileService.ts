@@ -4,7 +4,7 @@ import { ProfileModel } from "../models/Profile";
 
 interface ProfileData {
   id: string;
-  username?: string;
+  name?: string;
   description?: string;
   skills?: string;
   education?: string;

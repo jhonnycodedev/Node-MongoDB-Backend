@@ -13,8 +13,9 @@ export class UserService {
     this.profileService = new ProfileService(); // Inicialize o profileService
   }
 
+
   public async createUser(userData: {
-    name:string;
+    username:string;
     lastname: string;
     email: string;
     password: string;
@@ -24,7 +25,7 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(userData.password, salt);
 
     const user = new UserModel({
-      name:userData.name,
+      username:userData.username,
       lastname: userData.lastname,
       email: userData.email,
       password: hashedPassword,
@@ -86,7 +87,7 @@ export class UserService {
 
   public async updateUser(userData: {
     id: string;
-    name?:string;
+    username?:string;
     lastname?: string;
     email?: string;
     password?: string;
@@ -123,3 +124,4 @@ export class UserService {
     }
   }
 }
+

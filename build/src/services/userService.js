@@ -19,7 +19,7 @@ class UserService {
         const salt = await bcrypt_1.default.genSalt(10);
         const hashedPassword = await bcrypt_1.default.hash(userData.password, salt);
         const user = new User_1.UserModel({
-            name: userData.name,
+            username: userData.username,
             lastname: userData.lastname,
             email: userData.email,
             password: hashedPassword,

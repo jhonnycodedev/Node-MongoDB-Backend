@@ -7,7 +7,7 @@ import { JsonObject } from "swagger-ui-express";
 
 interface ProfileData {
   id: string;
-  username?: string;
+  name?: string;
   description?: string;
   skills?: string;
   education?: string;

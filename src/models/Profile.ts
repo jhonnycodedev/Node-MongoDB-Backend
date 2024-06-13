@@ -5,7 +5,7 @@ import mongoose from "mongoose"
 // Define o esquema do Mongoose com base na interface
 const profileSchema = new mongoose.Schema({
   
-  username: { 
+  name:{ 
     type: String, 
     required: true, 
     unique: true 

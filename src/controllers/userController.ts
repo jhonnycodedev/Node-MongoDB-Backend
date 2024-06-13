@@ -14,7 +14,7 @@ export default class UserController {
 
   @Post("/register")
   public async register(@Body() body: {
-  name:string;
+  username:string;
   lastname: string;
   email: string;
   password: string;
@@ -74,7 +74,7 @@ export default class UserController {
   @Security("bearerAuth") 
   public async update(@Body() body: {
     id: string;
-    name?:string;
+    username?:string;
     lastname?: string;
     email?: string;
     password?: string;

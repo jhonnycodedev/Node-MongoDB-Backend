@@ -17,7 +17,7 @@
 					"id": {
 						"type": "string"
 					},
-					"username": {
+					"name": {
 						"type": "string"
 					},
 					"description": {
@@ -53,13 +53,7 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {
-			"bearerAuth": {
-      "type":"http",
-      "scheme": "bearer",
-      "bearerFormat": "JWT"
-    }
-		}
+		"securitySchemes": {}
 	},
 	"info": {
 		"title": "hello-express-mongo",
@@ -105,7 +99,7 @@
 									"lastname": {
 										"type": "string"
 									},
-									"name": {
+									"username": {
 										"type": "string"
 									}
 								},
@@ -113,7 +107,7 @@
 									"password",
 									"email",
 									"lastname",
-									"name"
+									"username"
 								],
 								"type": "object"
 							}
@@ -254,7 +248,7 @@
 									"lastname": {
 										"type": "string"
 									},
-									"name": {
+									"username": {
 										"type": "string"
 									},
 									"id": {
