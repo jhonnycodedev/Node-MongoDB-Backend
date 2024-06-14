@@ -15,32 +15,31 @@ interface ProfileData {
   userId: string;
 }
 
-
 export class ProfileService {
 
   public async createProfile(profileData: ProfileData) {
-    
     try {
       const profile = new ProfileModel(profileData);
       const result = await profile.save();
-      
       return { message: "OK", result };
-    } catch (error: any) { // Especifica o tipo do erro como Error
+    } catch (error: any) {
       return { message: error.message || "Unknown error" };
     }
   }
-  
 
-  public async getAllProfiles() {
+  public async getAllProfiles(offset: number, pageSize: number): Promise<any[]> {
     try {
-      const profiles = await ProfileModel.find();
+      const profiles = await ProfileModel.find({}, { _id: 0, userId: 0 })
+                                         .skip(offset)
+                                         .limit(pageSize)
+                                         .exec();
       return profiles;
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  async findProfileByUserId(userId: string) {
+  public async findProfileByUserId(userId: string) {
     try {
       const profile = await ProfileModel.findOne({ userId });
       if (!profile) {
@@ -52,24 +51,19 @@ export class ProfileService {
     }
   }
 
-
-  public async updateProfile(profileData: ProfileData){
-
+  public async updateProfile(profileData: ProfileData) {
     try {
       const updateData: Partial<Omit<ProfileData, 'id'>> = {};
-    
-    (Object.keys(profileData) as (keyof ProfileData)[]).forEach((key) => {
-      if (profileData[key] !== undefined && key !== 'id') {
-        updateData[key] = profileData[key];
-      }
-    });
-
-    const result = await ProfileModel.findByIdAndUpdate(profileData.id, updateData, { new: true });
-
-    return result;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+      (Object.keys(profileData) as (keyof ProfileData)[]).forEach((key) => {
+        if (profileData[key] !== undefined && key !== 'id') {
+          updateData[key] = profileData[key];
+        }
+      });
+      const result = await ProfileModel.findByIdAndUpdate(profileData.id, updateData, { new: true });
+      return result;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async deleteProfileByUserId(userId: string) {
@@ -94,6 +88,15 @@ export class ProfileService {
     try {
       const profiles = await ProfileModel.find().select("username description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
       return profiles;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
+  public async getTotalProfiles(): Promise<number> {
+    try {
+      const totalProfiles = await ProfileModel.countDocuments().exec();
+      return totalProfiles;
     } catch (error: any) {
       throw new Error(error.message);
     }

@@ -15,33 +15,31 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsoa_1 = require("tsoa");
 const profileService_1 = require("../services/profileService");
-const userService_1 = require("../services/userService");
 let ProfileController = class ProfileController {
     constructor() {
         this.profileService = new profileService_1.ProfileService();
-        this.userService = new userService_1.UserService();
     }
-    async create(body, req // Adicione o decorator @Request para obter acesso ao objeto de requisição
-    ) {
+    async create(body, req) {
         try {
-            const userId = req.user.id; // Obtenha o ID do usuário decodificado do token
-            const profileData = Object.assign(Object.assign({}, body), { userId }); // Adicione o userId aos dados do perfil
+            const userId = req.user.id;
+            const profileData = Object.assign(Object.assign({}, body), { userId });
             const result = await this.profileService.createProfile(profileData);
-            return result; // Retorna o resultado da criação do perfil
+            return result;
         }
         catch (error) {
-            return { message: error.message || "Unknown error" }; // Retorna uma mensagem de erro em caso de falha
+            return { message: error.message || "Unknown error" };
         }
     }
-    async all() {
+    async getAll(page = 1, pageSize = 10) {
         try {
-            const profiles = await this.profileService.getAllProfiles();
-            return profiles;
+            const offset = (page - 1) * pageSize;
+            const profiles = await this.profileService.getAllProfiles(offset, pageSize);
+            const totalProfiles = await this.profileService.getTotalProfiles();
+            const totalPages = Math.ceil(totalProfiles / pageSize);
+            return { profiles, totalPages };
         }
         catch (error) {
-            return {
-                error: error.message,
-            };
+            throw new Error(error.message);
         }
     }
     async findById(id) {
@@ -50,9 +48,7 @@ let ProfileController = class ProfileController {
             return { user: user };
         }
         catch (error) {
-            return {
-                error: error.message
-            };
+            return { error: error.message };
         }
     }
     async update(body) {
@@ -61,26 +57,20 @@ let ProfileController = class ProfileController {
             return { result: result };
         }
         catch (error) {
-            return {
-                error: error.message,
-            };
+            return { error: error.message };
         }
     }
     async delete(req, id) {
         try {
-            // Verifique se o perfil pertence ao usuário autenticado antes de excluir
             const profile = await this.profileService.findProfileByUserId(id);
             if (profile.userId !== req.user.id) {
                 throw new Error("Você não tem permissão para excluir este perfil");
             }
-            // Deleta o usuário e seus perfis associados em cascata
-            await this.userService.deleteUser(id);
+            await this.profileService.deleteProfileByUserId(id);
             return { message: "Usuário e perfil deletados com sucesso" };
         }
         catch (error) {
-            return {
-                error: error.message,
-            };
+            return { error: error.message };
         }
     }
     async fields() {
@@ -89,9 +79,7 @@ let ProfileController = class ProfileController {
             return profiles;
         }
         catch (error) {
-            return {
-                error: error.message,
-            };
+            return { error: error.message };
         }
     }
     async query() {
@@ -100,9 +88,7 @@ let ProfileController = class ProfileController {
             return profiles;
         }
         catch (error) {
-            return {
-                error: error.message,
-            };
+            return { error: error.message };
         }
     }
 };
@@ -118,10 +104,12 @@ __decorate([
 __decorate([
     (0, tsoa_1.Get)("/getAll"),
     (0, tsoa_1.Security)("bearerAuth"),
+    __param(0, (0, tsoa_1.Query)()),
+    __param(1, (0, tsoa_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
-], ProfileController.prototype, "all", null);
+], ProfileController.prototype, "getAll", null);
 __decorate([
     (0, tsoa_1.Get)("/findById/{id}"),
     (0, tsoa_1.Security)("bearerAuth"),
@@ -138,7 +126,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "update", null);
 __decorate([
-    (0, tsoa_1.Delete)("/delete/:id"),
+    (0, tsoa_1.Delete)("/delete/{id}"),
     (0, tsoa_1.Security)("bearerAuth"),
     __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),

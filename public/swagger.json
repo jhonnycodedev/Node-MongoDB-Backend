@@ -53,13 +53,7 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {
-			"bearerAuth": {
-      "type":"http",
-      "scheme": "bearer",
-      "bearerFormat": "JWT"
-    }
-		}
+		"securitySchemes": {}
 	},
 	"info": {
 		"title": "hello-express-mongo",
@@ -347,14 +341,28 @@
 		},
 		"/api/profiles/getAll": {
 			"get": {
-				"operationId": "All",
+				"operationId": "GetAll",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/JsonObject"
+									"properties": {
+										"totalPages": {
+											"type": "number",
+											"format": "double"
+										},
+										"profiles": {
+											"items": {},
+											"type": "array"
+										}
+									},
+									"required": [
+										"totalPages",
+										"profiles"
+									],
+									"type": "object"
 								}
 							}
 						}
@@ -365,7 +373,28 @@
 						"bearerAuth": []
 					}
 				],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/api/profiles/findById/{id}": {

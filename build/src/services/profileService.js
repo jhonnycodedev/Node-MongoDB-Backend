@@ -10,13 +10,16 @@ class ProfileService {
             const result = await profile.save();
             return { message: "OK", result };
         }
-        catch (error) { // Especifica o tipo do erro como Error
+        catch (error) {
             return { message: error.message || "Unknown error" };
         }
     }
-    async getAllProfiles() {
+    async getAllProfiles(offset, pageSize) {
         try {
-            const profiles = await Profile_1.ProfileModel.find();
+            const profiles = await Profile_1.ProfileModel.find({}, { _id: 0, userId: 0 })
+                .skip(offset)
+                .limit(pageSize)
+                .exec();
             return profiles;
         }
         catch (error) {
@@ -72,6 +75,15 @@ class ProfileService {
         try {
             const profiles = await Profile_1.ProfileModel.find().select("username description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
             return profiles;
+        }
+        catch (error) {
+            throw new Error(error.message);
+        }
+    }
+    async getTotalProfiles() {
+        try {
+            const totalProfiles = await Profile_1.ProfileModel.countDocuments().exec();
+            return totalProfiles;
         }
         catch (error) {
             throw new Error(error.message);
