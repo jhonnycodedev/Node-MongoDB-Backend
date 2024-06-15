@@ -9,6 +9,7 @@ const userController_1 = __importDefault(require("../controllers/userController"
 const auth_1 = require("../../config/auth");
 const router = express_1.default.Router();
 const userController = new userController_1.default();
+//-----------------------------------------------------------------------------------------------//
 router.post("/register", async (req, res) => {
     try {
         const response = await userController.register(req.body);
@@ -18,6 +19,7 @@ router.post("/register", async (req, res) => {
         res.status(400).send(error);
     }
 });
+//-----------------------------------------------------------------------------------------------//
 router.post("/login", async (req, res) => {
     try {
         const response = await userController.login(req.body);
@@ -27,6 +29,7 @@ router.post("/login", async (req, res) => {
         res.status(400).send(error);
     }
 });
+//-----------------------------------------------------------------------------------------------//
 router.get("/findAll", auth_1.authenticateJWT, async (req, res) => {
     try {
         const response = await userController.findAll();
@@ -36,6 +39,7 @@ router.get("/findAll", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).send(error);
     }
 });
+//-----------------------------------------------------------------------------------------------//
 router.get("/findById/:id", auth_1.authenticateJWT, async (req, res) => {
     try {
         const response = await userController.findById(req.params.id);
@@ -45,6 +49,7 @@ router.get("/findById/:id", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).send(error);
     }
 });
+//-----------------------------------------------------------------------------------------------//
 router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
     try {
         const response = await userController.update(req.body);
@@ -54,6 +59,7 @@ router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).send(error);
     }
 });
+//-----------------------------------------------------------------------------------------------//
 router.delete("/delete/:id", auth_1.authenticateJWT, async (req, res) => {
     try {
         const response = await userController.delete(req.params.id);
@@ -63,4 +69,5 @@ router.delete("/delete/:id", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).send(error);
     }
 });
+//-----------------------------------------------------------------------------------------------//
 exports.default = router;

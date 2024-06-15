@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "../../config";
 import { ProfileService } from "./profileService";
+
+//-----------------------------------------------------------------------------------------------//
+
 export class UserService {
 
   private profileService: ProfileService; // Adicione o profileService como propriedade
@@ -13,6 +16,7 @@ export class UserService {
     this.profileService = new ProfileService(); // Inicialize o profileService
   }
 
+//-----------------------------------------------------------------------------------------------//
 
   public async createUser(userData: {
     username:string;
@@ -47,6 +51,10 @@ export class UserService {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
   public async loginUser(email: string, password: string): Promise<string | null> {
     const user = await UserModel.findOne({ email });
     if (!user) {
@@ -67,6 +75,9 @@ export class UserService {
     return token;
   }
 
+//-----------------------------------------------------------------------------------------------//
+
+
   public async findAllUsers() {
     try {
       const users = await UserModel.find();
@@ -76,6 +87,9 @@ export class UserService {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
   public async findUserById(id: string) {
     try {
       const user = await UserModel.findById(id);
@@ -84,6 +98,10 @@ export class UserService {
       throw new Error(error.message);
     }
   }
+
+
+//-----------------------------------------------------------------------------------------------//
+
 
   public async updateUser(userData: {
     id: string;
@@ -110,6 +128,10 @@ export class UserService {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
   public async deleteUser(id: string) {
     try {
       // Primeiro, remova o perfil associado ao usuário
@@ -123,5 +145,8 @@ export class UserService {
       throw new Error(error.message);
     }
   }
+
+//-----------------------------------------------------------------------------------------------//
+
 }
 

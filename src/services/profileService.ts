@@ -17,6 +17,8 @@ interface ProfileData {
 
 export class ProfileService {
 
+//-----------------------------------------------------------------------------------------------//
+
   public async createProfile(profileData: ProfileData) {
     try {
       const profile = new ProfileModel(profileData);
@@ -26,6 +28,8 @@ export class ProfileService {
       return { message: error.message || "Unknown error" };
     }
   }
+
+//-----------------------------------------------------------------------------------------------//
 
   public async getAllProfiles(offset: number, pageSize: number): Promise<any[]> {
     try {
@@ -39,6 +43,8 @@ export class ProfileService {
     }
   }
 
+//-----------------------------------------------------------------------------------------------//
+
   public async findProfileByUserId(userId: string) {
     try {
       const profile = await ProfileModel.findOne({ userId });
@@ -50,6 +56,8 @@ export class ProfileService {
       throw new Error(error.message);
     }
   }
+
+//-----------------------------------------------------------------------------------------------//
 
   public async updateProfile(profileData: ProfileData) {
     try {
@@ -66,6 +74,8 @@ export class ProfileService {
     }
   }
 
+//-----------------------------------------------------------------------------------------------//
+
   public async deleteProfileByUserId(userId: string) {
     try {
       const profile = await ProfileModel.findOneAndDelete({ userId });
@@ -74,6 +84,8 @@ export class ProfileService {
       throw new Error(error.message);
     }
   }
+
+//-----------------------------------------------------------------------------------------------//
 
   public async getProfileFields() {
     try {
@@ -84,6 +96,7 @@ export class ProfileService {
     }
   }
 
+//-----------------------------------------------------------------------------------------------//
   public async queryProfiles() {
     try {
       const profiles = await ProfileModel.find().select("username description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
@@ -93,6 +106,8 @@ export class ProfileService {
     }
   }
 
+//-----------------------------------------------------------------------------------------------//
+
   public async getTotalProfiles(): Promise<number> {
     try {
       const totalProfiles = await ProfileModel.countDocuments().exec();
@@ -101,4 +116,18 @@ export class ProfileService {
       throw new Error(error.message);
     }
   }
+
+//-----------------------------------------------------------------------------------------------//
+
+public async searchProfiles(filters: any) {
+  try {
+    const profiles = await ProfileModel.find(filters).select("-_id -userId");
+    return profiles;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 }

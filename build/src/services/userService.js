@@ -10,10 +10,12 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
 const profileService_1 = require("./profileService");
+//-----------------------------------------------------------------------------------------------//
 class UserService {
     constructor() {
         this.profileService = new profileService_1.ProfileService(); // Inicialize o profileService
     }
+    //-----------------------------------------------------------------------------------------------//
     async createUser(userData) {
         // Hash the password before saving the user
         const salt = await bcrypt_1.default.genSalt(10);
@@ -34,6 +36,7 @@ class UserService {
             return JSON.stringify(error);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async loginUser(email, password) {
         const user = await User_1.UserModel.findOne({ email });
         if (!user) {
@@ -50,6 +53,7 @@ class UserService {
         });
         return token;
     }
+    //-----------------------------------------------------------------------------------------------//
     async findAllUsers() {
         try {
             const users = await User_1.UserModel.find();
@@ -59,6 +63,7 @@ class UserService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async findUserById(id) {
         try {
             const user = await User_1.UserModel.findById(id);
@@ -68,6 +73,7 @@ class UserService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async updateUser(userData) {
         try {
             if (userData.password) {
@@ -85,6 +91,7 @@ class UserService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async deleteUser(id) {
         try {
             // Primeiro, remova o perfil associado ao usuário

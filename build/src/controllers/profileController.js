@@ -15,10 +15,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsoa_1 = require("tsoa");
 const profileService_1 = require("../services/profileService");
+//-----------------------------------------------------------------------------------------------//
 let ProfileController = class ProfileController {
     constructor() {
         this.profileService = new profileService_1.ProfileService();
     }
+    //-----------------------------------------------------------------------------------------------//  
     async create(body, req) {
         try {
             const userId = req.user.id;
@@ -30,6 +32,7 @@ let ProfileController = class ProfileController {
             return { message: error.message || "Unknown error" };
         }
     }
+    //-----------------------------------------------------------------------------------------------//  
     async getAll(page = 1, pageSize = 10) {
         try {
             const offset = (page - 1) * pageSize;
@@ -42,6 +45,7 @@ let ProfileController = class ProfileController {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async findById(id) {
         try {
             const user = await this.profileService.findProfileByUserId(id);
@@ -51,6 +55,7 @@ let ProfileController = class ProfileController {
             return { error: error.message };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async update(body) {
         try {
             const result = await this.profileService.updateProfile(body);
@@ -60,6 +65,7 @@ let ProfileController = class ProfileController {
             return { error: error.message };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async delete(req, id) {
         try {
             const profile = await this.profileService.findProfileByUserId(id);
@@ -73,6 +79,7 @@ let ProfileController = class ProfileController {
             return { error: error.message };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async fields() {
         try {
             const profiles = await this.profileService.getProfileFields();
@@ -82,6 +89,7 @@ let ProfileController = class ProfileController {
             return { error: error.message };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async query() {
         try {
             const profiles = await this.profileService.queryProfiles();
@@ -89,6 +97,27 @@ let ProfileController = class ProfileController {
         }
         catch (error) {
             return { error: error.message };
+        }
+    }
+    //-----------------------------------------------------------------------------------------------//
+    async searchProfiles(name, skills, education, certifications) {
+        try {
+            const filters = {};
+            if (name)
+                filters.name = { $regex: name, $options: 'i' };
+            if (skills)
+                filters.skills = { $regex: skills, $options: 'i' };
+            if (education)
+                filters.education = { $regex: education, $options: 'i' };
+            if (certifications)
+                filters.certifications = { $regex: certifications, $options: 'i' };
+            const profiles = await this.profileService.searchProfiles(filters);
+            return profiles;
+        }
+        catch (error) {
+            return {
+                error: error.message,
+            };
         }
     }
 };
@@ -145,6 +174,16 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "query", null);
+__decorate([
+    (0, tsoa_1.Get)("/search"),
+    __param(0, (0, tsoa_1.Query)()),
+    __param(1, (0, tsoa_1.Query)()),
+    __param(2, (0, tsoa_1.Query)()),
+    __param(3, (0, tsoa_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, String]),
+    __metadata("design:returntype", Promise)
+], ProfileController.prototype, "searchProfiles", null);
 ProfileController = __decorate([
     (0, tsoa_1.Route)("api/profiles"),
     __metadata("design:paramtypes", [])

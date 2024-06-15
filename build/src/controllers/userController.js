@@ -15,10 +15,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsoa_1 = require("tsoa");
 const userService_1 = require("../services/userService");
+//-----------------------------------------------------------------------------------------------//
 let UserController = class UserController {
     constructor() {
         this.userService = new userService_1.UserService();
     }
+    //-----------------------------------------------------------------------------------------------//
     async register(body) {
         try {
             const token = await this.userService.createUser(body);
@@ -30,6 +32,7 @@ let UserController = class UserController {
             };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async login(body) {
         try {
             const token = await this.userService.loginUser(body.email, body.password);
@@ -41,6 +44,7 @@ let UserController = class UserController {
             };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async findAll() {
         try {
             const users = await this.userService.findAllUsers();
@@ -52,6 +56,7 @@ let UserController = class UserController {
             };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async findById(id) {
         try {
             const user = await this.userService.findUserById(id);
@@ -63,6 +68,7 @@ let UserController = class UserController {
             };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async update(body) {
         try {
             const result = await this.userService.updateUser(body);
@@ -74,6 +80,7 @@ let UserController = class UserController {
             };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async delete(id) {
         try {
             const user = await this.userService.deleteUser(id);

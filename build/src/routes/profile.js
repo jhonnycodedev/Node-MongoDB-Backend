@@ -8,6 +8,7 @@ const profileController_1 = __importDefault(require("../controllers/profileContr
 const auth_1 = require("../../config/auth");
 const router = express_1.default.Router();
 const profileController = new profileController_1.default();
+//-----------------------------------------------------------------------------------------------//
 // Rota para criar um novo perfil
 router.post("/create", auth_1.authenticateJWT, async (req, res) => {
     try {
@@ -18,6 +19,7 @@ router.post("/create", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).json({ error: error });
     }
 });
+//-----------------------------------------------------------------------------------------------//
 // Rota para obter todos os perfis com paginação
 router.get("/getAll", async (req, res) => {
     try {
@@ -29,6 +31,7 @@ router.get("/getAll", async (req, res) => {
         res.status(400).json({ error });
     }
 });
+//-----------------------------------------------------------------------------------------------//
 // Rota para buscar um perfil pelo ID
 router.get("/findById/:id", auth_1.authenticateJWT, async (req, res) => {
     try {
@@ -39,6 +42,7 @@ router.get("/findById/:id", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).json({ error });
     }
 });
+//-----------------------------------------------------------------------------------------------//
 // Rota para buscar o perfil do usuário autenticado pelo token
 router.get("/findByToken", auth_1.authenticateJWT, async (req, res) => {
     try {
@@ -50,6 +54,7 @@ router.get("/findByToken", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).json({ error });
     }
 });
+//-----------------------------------------------------------------------------------------------//
 // Rota para atualizar um perfil
 router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
     try {
@@ -60,6 +65,7 @@ router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
         res.status(400).json({ error });
     }
 });
+//-----------------------------------------------------------------------------------------------//
 // Rota para obter apenas campos específicos dos perfis
 router.get("/fields", async (req, res) => {
     try {
@@ -70,6 +76,7 @@ router.get("/fields", async (req, res) => {
         res.status(400).json({ error });
     }
 });
+//-----------------------------------------------------------------------------------------------//
 // Rota para consultar perfis com dados populados do usuário
 router.get("/query", async (req, res) => {
     try {
@@ -80,4 +87,16 @@ router.get("/query", async (req, res) => {
         res.status(400).json({ error });
     }
 });
+//-----------------------------------------------------------------------------------------------//
+router.get("/search", async (req, res) => {
+    try {
+        const { name, skills, education, certifications } = req.query;
+        const response = await profileController.searchProfiles(name, skills, education, certifications);
+        res.status(200).json(response);
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+//-----------------------------------------------------------------------------------------------//
 exports.default = router;

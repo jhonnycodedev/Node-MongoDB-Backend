@@ -7,6 +7,8 @@ import { authenticateJWT } from "../../config/auth";
 const router = express.Router();
 const userController = new UserController();
 
+//-----------------------------------------------------------------------------------------------//
+
 router.post("/register", async (req: Request, res: Response) => {
   try{
     const response = await userController.register(req.body);
@@ -17,6 +19,8 @@ router.post("/register", async (req: Request, res: Response) => {
 }
 });
 
+//-----------------------------------------------------------------------------------------------//
+
 router.post("/login", async (req: Request, res: Response) => {
   try{
     const response = await userController.login(req.body);
@@ -25,6 +29,8 @@ router.post("/login", async (req: Request, res: Response) => {
     res.status(400).send(error);
   }
 });
+
+//-----------------------------------------------------------------------------------------------//
 
 router.get("/findAll", authenticateJWT, async (req: Request, res: Response) => {
   try {
@@ -35,6 +41,9 @@ router.get("/findAll", authenticateJWT, async (req: Request, res: Response) => {
   }
 });
 
+//-----------------------------------------------------------------------------------------------//
+
+
 router.get("/findById/:id", authenticateJWT, async (req: Request, res: Response) => {
   try {
     const response = await userController.findById(req.params.id);
@@ -44,6 +53,7 @@ router.get("/findById/:id", authenticateJWT, async (req: Request, res: Response)
   }
 });
 
+//-----------------------------------------------------------------------------------------------//
 
 router.patch("/update", authenticateJWT, async (req: Request, res: Response) => {
   try {
@@ -54,6 +64,8 @@ router.patch("/update", authenticateJWT, async (req: Request, res: Response) => 
   }
 });
 
+//-----------------------------------------------------------------------------------------------//
+
 router.delete("/delete/:id", authenticateJWT, async (req: Request, res: Response) => {
   try {
     const response = await userController.delete(req.params.id);
@@ -62,6 +74,8 @@ router.delete("/delete/:id", authenticateJWT, async (req: Request, res: Response
     res.status(400).send(error);
   }
 });
+
+//-----------------------------------------------------------------------------------------------//
 
 
 

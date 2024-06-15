@@ -4,6 +4,8 @@ import { Body, Get, Patch, Delete, Post, Route, Security, Request, Response, Que
 import { ProfileService } from "../services/profileService";
 import { JsonObject } from "swagger-ui-express";
 
+
+//-----------------------------------------------------------------------------------------------//
 interface ProfileData {
   id: string;
   name?: string;
@@ -17,6 +19,10 @@ interface ProfileData {
   userId: string;
 }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
 @Route("api/profiles")
 export default class ProfileController {
   private profileService: ProfileService;
@@ -24,6 +30,8 @@ export default class ProfileController {
   constructor() {
     this.profileService = new ProfileService();
   }
+
+//-----------------------------------------------------------------------------------------------//  
 
   @Post("/create")
   @Security("bearerAuth")
@@ -40,6 +48,8 @@ export default class ProfileController {
       return { message: error.message || "Unknown error" };
     }
   }
+
+//-----------------------------------------------------------------------------------------------//  
 
   @Get("/getAll")
   @Security("bearerAuth")
@@ -58,6 +68,9 @@ export default class ProfileController {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
   @Get("/findById/{id}")
   @Security("bearerAuth")
   public async findById(id: string): Promise<JsonObject> {
@@ -69,6 +82,10 @@ export default class ProfileController {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
   @Patch("/update")
   @Security("bearerAuth")
   public async update(@Body() body: ProfileData): Promise<JsonObject> {
@@ -79,6 +96,10 @@ export default class ProfileController {
       return { error: error.message };
     }
   }
+
+
+//-----------------------------------------------------------------------------------------------//
+
 
   @Delete("/delete/{id}")
   @Security("bearerAuth")
@@ -95,6 +116,10 @@ export default class ProfileController {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
   @Get("/fields")
   public async fields(): Promise<JsonObject> {
     try {
@@ -105,6 +130,10 @@ export default class ProfileController {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
   @Get("/query")
   public async query(): Promise<JsonObject> {
     try {
@@ -114,4 +143,31 @@ export default class ProfileController {
       return { error: error.message };
     }
   }
+
+//-----------------------------------------------------------------------------------------------//
+  
+@Get("/search")
+  public async searchProfiles(
+    @Query() name?: string,
+    @Query() skills?: string,
+    @Query() education?: string,
+    @Query() certifications?: string
+  ): Promise<JsonObject> {
+    try {
+      const filters: any = {};
+      if (name) filters.name = { $regex: name, $options: 'i' };
+      if (skills) filters.skills = { $regex: skills, $options: 'i' };
+      if (education) filters.education = { $regex: education, $options: 'i' };
+      if (certifications) filters.certifications = { $regex: certifications, $options: 'i' };
+
+      const profiles = await this.profileService.searchProfiles(filters);
+      return profiles;
+    } catch (error: any) {
+      return {
+        error: error.message,
+      };
+    }
+  }
+//-----------------------------------------------------------------------------------------------//
+
 }

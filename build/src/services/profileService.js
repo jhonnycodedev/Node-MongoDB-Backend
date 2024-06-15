@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileService = void 0;
 const Profile_1 = require("../models/Profile");
 class ProfileService {
+    //-----------------------------------------------------------------------------------------------//
     async createProfile(profileData) {
         try {
             const profile = new Profile_1.ProfileModel(profileData);
@@ -14,6 +15,7 @@ class ProfileService {
             return { message: error.message || "Unknown error" };
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async getAllProfiles(offset, pageSize) {
         try {
             const profiles = await Profile_1.ProfileModel.find({}, { _id: 0, userId: 0 })
@@ -26,6 +28,7 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async findProfileByUserId(userId) {
         try {
             const profile = await Profile_1.ProfileModel.findOne({ userId });
@@ -38,6 +41,7 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async updateProfile(profileData) {
         try {
             const updateData = {};
@@ -53,6 +57,7 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async deleteProfileByUserId(userId) {
         try {
             const profile = await Profile_1.ProfileModel.findOneAndDelete({ userId });
@@ -62,6 +67,7 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async getProfileFields() {
         try {
             const profiles = await Profile_1.ProfileModel.find().select("username description skills education certifications contact image userId -_id");
@@ -71,6 +77,7 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async queryProfiles() {
         try {
             const profiles = await Profile_1.ProfileModel.find().select("username description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
@@ -80,10 +87,21 @@ class ProfileService {
             throw new Error(error.message);
         }
     }
+    //-----------------------------------------------------------------------------------------------//
     async getTotalProfiles() {
         try {
             const totalProfiles = await Profile_1.ProfileModel.countDocuments().exec();
             return totalProfiles;
+        }
+        catch (error) {
+            throw new Error(error.message);
+        }
+    }
+    //-----------------------------------------------------------------------------------------------//
+    async searchProfiles(filters) {
+        try {
+            const profiles = await Profile_1.ProfileModel.find(filters).select("-_id -userId");
+            return profiles;
         }
         catch (error) {
             throw new Error(error.message);

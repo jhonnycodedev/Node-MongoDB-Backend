@@ -4,6 +4,7 @@ import { Body, Get, Patch, Delete, Post, Route, Security } from "tsoa";
 import { UserService } from "../services/userService";
 import { JsonObject } from "swagger-ui-express";
 
+//-----------------------------------------------------------------------------------------------//
 @Route("api/users")
 export default class UserController {
   private userService: UserService;
@@ -11,6 +12,10 @@ export default class UserController {
   constructor() {
     this.userService = new UserService();
   }
+
+
+//-----------------------------------------------------------------------------------------------//
+
 
   @Post("/register")
   public async register(@Body() body: {
@@ -29,6 +34,10 @@ export default class UserController {
   }
 }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
   @Post("/login")
   public async login(@Body() body: { 
     email: string; 
@@ -44,6 +53,9 @@ export default class UserController {
     }
   }
 
+//-----------------------------------------------------------------------------------------------//
+
+
   @Get("/findAll")
   @Security("bearerAuth") 
   public async findAll(): Promise<JsonObject> {
@@ -57,6 +69,10 @@ export default class UserController {
     }
   }
 
+
+ //-----------------------------------------------------------------------------------------------//
+ 
+ 
   @Get("/findById/{id}")
   @Security("bearerAuth") 
   public async findById(id: string): Promise<JsonObject> {
@@ -69,6 +85,10 @@ export default class UserController {
       };
     }
   }
+
+
+//-----------------------------------------------------------------------------------------------//
+
 
   @Patch("/update")
   @Security("bearerAuth") 
@@ -89,6 +109,10 @@ export default class UserController {
     }
   }
 
+
+//-----------------------------------------------------------------------------------------------//
+
+
   @Delete("/delete/{id}")
   @Security("bearerAuth") 
   public async delete(id: string): Promise<JsonObject> {
@@ -101,4 +125,8 @@ export default class UserController {
       };
     }
   }
+
+//-----------------------------------------------------------------------------------------------//
+
+
 }
