@@ -53,13 +53,7 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {
-			"bearerAuth": {
-      		"type":"http",
-      		"scheme": "bearer",
-      		"bearerFormat": "JWT"
-    		}
-		}
+		"securitySchemes": {}
 	},
 	"info": {
 		"title": "hello-express-mongo",
@@ -546,15 +540,33 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/JsonObject"
-								}
+								"schema": {}
 							}
 						}
 					}
 				},
 				"security": [],
 				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					},
 					{
 						"in": "query",
 						"name": "name",
@@ -565,7 +577,7 @@
 					},
 					{
 						"in": "query",
-						"name": "skills",
+						"name": "certifications",
 						"required": false,
 						"schema": {
 							"type": "string"
@@ -581,7 +593,7 @@
 					},
 					{
 						"in": "query",
-						"name": "certifications",
+						"name": "skills",
 						"required": false,
 						"schema": {
 							"type": "string"

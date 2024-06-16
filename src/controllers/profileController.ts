@@ -17,7 +17,16 @@ interface ProfileData {
   linkedin?: string;
   image?: string;
   userId: string;
-}
+};
+
+interface SearchAttributes {
+  name?: string;
+  skills?: string;
+  education?: string;
+  certifications?: string;
+  page?: number;
+  limit?: number;
+};
 
 
 //-----------------------------------------------------------------------------------------------//
@@ -146,28 +155,36 @@ export default class ProfileController {
 
 //-----------------------------------------------------------------------------------------------//
   
-@Get("/search")
-  public async searchProfiles(
-    @Query() name?: string,
-    @Query() skills?: string,
-    @Query() education?: string,
-    @Query() certifications?: string
-  ): Promise<JsonObject> {
-    try {
-      const filters: any = {};
-      if (name) filters.name = { $regex: name, $options: 'i' };
-      if (skills) filters.skills = { $regex: skills, $options: 'i' };
-      if (education) filters.education = { $regex: education, $options: 'i' };
-      if (certifications) filters.certifications = { $regex: certifications, $options: 'i' };
+@Get('search')
+public async searchProfiles(
+  @Query('page') page: number = 1,
+  @Query('pageSize') pageSize: number = 10,
+  @Query('name') name?: string,
+  @Query('certifications') certifications?: string,
+  @Query('education') education?: string,
+  @Query('skills') skills?: string
+): Promise<any> {
+  try {
+    const params: SearchAttributes = {
+      page,
+      limit: pageSize,
+      name,
+      certifications,
+      education,
+      skills
+    };
 
-      const profiles = await this.profileService.searchProfiles(filters);
-      return profiles;
-    } catch (error: any) {
-      return {
-        error: error.message,
-      };
-    }
+    const profiles = await this.profileService.searchProfiles(params);
+
+    return profiles;
+
+  } catch (error: any) {
+    return { error: error.message };
   }
+}
+
+  
+
 //-----------------------------------------------------------------------------------------------//
 
 }

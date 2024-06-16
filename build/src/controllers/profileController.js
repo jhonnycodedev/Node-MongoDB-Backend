@@ -15,6 +15,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsoa_1 = require("tsoa");
 const profileService_1 = require("../services/profileService");
+;
+;
 //-----------------------------------------------------------------------------------------------//
 let ProfileController = class ProfileController {
     constructor() {
@@ -100,24 +102,21 @@ let ProfileController = class ProfileController {
         }
     }
     //-----------------------------------------------------------------------------------------------//
-    async searchProfiles(name, skills, education, certifications) {
+    async searchProfiles(page = 1, pageSize = 10, name, certifications, education, skills) {
         try {
-            const filters = {};
-            if (name)
-                filters.name = { $regex: name, $options: 'i' };
-            if (skills)
-                filters.skills = { $regex: skills, $options: 'i' };
-            if (education)
-                filters.education = { $regex: education, $options: 'i' };
-            if (certifications)
-                filters.certifications = { $regex: certifications, $options: 'i' };
-            const profiles = await this.profileService.searchProfiles(filters);
+            const params = {
+                page,
+                limit: pageSize,
+                name,
+                certifications,
+                education,
+                skills
+            };
+            const profiles = await this.profileService.searchProfiles(params);
             return profiles;
         }
         catch (error) {
-            return {
-                error: error.message,
-            };
+            return { error: error.message };
         }
     }
 };
@@ -175,13 +174,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "query", null);
 __decorate([
-    (0, tsoa_1.Get)("/search"),
-    __param(0, (0, tsoa_1.Query)()),
-    __param(1, (0, tsoa_1.Query)()),
-    __param(2, (0, tsoa_1.Query)()),
-    __param(3, (0, tsoa_1.Query)()),
+    (0, tsoa_1.Get)('search'),
+    __param(0, (0, tsoa_1.Query)('page')),
+    __param(1, (0, tsoa_1.Query)('pageSize')),
+    __param(2, (0, tsoa_1.Query)('name')),
+    __param(3, (0, tsoa_1.Query)('certifications')),
+    __param(4, (0, tsoa_1.Query)('education')),
+    __param(5, (0, tsoa_1.Query)('skills')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, String]),
+    __metadata("design:paramtypes", [Number, Number, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "searchProfiles", null);
 ProfileController = __decorate([

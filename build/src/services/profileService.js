@@ -3,6 +3,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileService = void 0;
 const Profile_1 = require("../models/Profile");
+;
+;
 class ProfileService {
     //-----------------------------------------------------------------------------------------------//
     async createProfile(profileData) {
@@ -98,14 +100,33 @@ class ProfileService {
         }
     }
     //-----------------------------------------------------------------------------------------------//
-    async searchProfiles(filters) {
+    async searchProfiles(params) {
+        const { name, certifications, education, skills, page = 1, limit = 10 } = params;
+        const query = {};
+        if (name)
+            query.name = { $regex: new RegExp(name, 'i') };
+        if (certifications)
+            query.certifications = certifications;
+        if (education)
+            query.graduation = { $regex: new RegExp(education, 'i') };
+        if (skills)
+            query.skills;
         try {
-            const profiles = await Profile_1.ProfileModel.find(filters).select("-_id -userId");
-            return profiles;
+            const candidatos = await Profile_1.ProfileModel.find(query)
+                .skip((page - 1) * limit)
+                .limit(limit);
+            const total = await Profile_1.ProfileModel.countDocuments(query);
+            return {
+                candidatos,
+                total,
+                page,
+                totalPages: Math.ceil(total / limit),
+            };
         }
         catch (error) {
-            throw new Error(error.message);
+            throw new Error(`Erro ao buscar perfis: ${error.message}`);
         }
     }
+    ;
 }
 exports.ProfileService = ProfileService;

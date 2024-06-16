@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
         return res.status(200).send(response);
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
         return res.status(200).send(response);
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -36,7 +36,7 @@ router.get("/findAll", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).send(response);
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -46,7 +46,7 @@ router.get("/findById/:id", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).send(response);
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -56,7 +56,7 @@ router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).send(response);
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -66,7 +66,7 @@ router.delete("/delete/:id", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).send(response);
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     }
 });
 //-----------------------------------------------------------------------------------------------//

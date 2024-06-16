@@ -16,7 +16,7 @@ router.post("/create", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).json(response);
     }
     catch (error) {
-        res.status(400).json({ error: error });
+        res.status(400).json({ error: error.message });
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -28,7 +28,7 @@ router.get("/getAll", async (req, res) => {
         res.status(200).json(response);
     }
     catch (error) {
-        res.status(400).json({ error });
+        res.status(400).json({ error: error.message });
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -39,7 +39,7 @@ router.get("/findById/:id", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).json(response);
     }
     catch (error) {
-        res.status(400).json({ error });
+        res.status(400).json({ error: error.message });
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -51,7 +51,7 @@ router.get("/findByToken", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).json(response);
     }
     catch (error) {
-        res.status(400).json({ error });
+        res.status(400).json({ error: error.message });
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -62,7 +62,7 @@ router.patch("/update", auth_1.authenticateJWT, async (req, res) => {
         res.status(200).json(response);
     }
     catch (error) {
-        res.status(400).json({ error });
+        res.status(400).json({ error: error.message });
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -73,7 +73,7 @@ router.get("/fields", async (req, res) => {
         res.status(200).json(response);
     }
     catch (error) {
-        res.status(400).json({ error });
+        res.status(400).json({ error: error.message });
     }
 });
 //-----------------------------------------------------------------------------------------------//
@@ -84,15 +84,15 @@ router.get("/query", async (req, res) => {
         res.status(200).json(response);
     }
     catch (error) {
-        res.status(400).json({ error });
+        res.status(400).json({ error: error.message });
     }
 });
 //-----------------------------------------------------------------------------------------------//
-router.get("/search", async (req, res) => {
+router.get('/search', async (req, res) => {
     try {
-        const { name, skills, education, certifications } = req.query;
-        const response = await profileController.searchProfiles(name, skills, education, certifications);
-        res.status(200).json(response);
+        const { page = 1, pageSize = 10, name, certifications, education, skills } = req.query;
+        const profiles = await profileController.searchProfiles(Number(page), Number(pageSize), String(name), String(certifications), String(education), String(skills));
+        res.status(200).json(profiles);
     }
     catch (error) {
         res.status(400).json({ error: error.message });
