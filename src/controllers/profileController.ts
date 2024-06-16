@@ -18,15 +18,11 @@ interface ProfileData {
   image?: string;
   userId: string;
 };
-
-interface SearchAttributes {
-  name?: string;
-  skills?: string;
-  education?: string;
-  certifications?: string;
-  page?: number;
-  limit?: number;
-};
+interface SearchRequest extends Request {
+  query: {
+    keyword: string;
+  };
+}
 
 
 //-----------------------------------------------------------------------------------------------//
@@ -156,33 +152,15 @@ export default class ProfileController {
 //-----------------------------------------------------------------------------------------------//
   
 @Get('search')
-public async searchProfiles(
-  @Query('page') page: number = 1,
-  @Query('pageSize') pageSize: number = 10,
-  @Query('name') name?: string,
-  @Query('certifications') certifications?: string,
-  @Query('education') education?: string,
-  @Query('skills') skills?: string
-): Promise<any> {
+public async searchProfiles(req: SearchRequest, res: Response): Promise<JsonObject> {
+  const keyword = req.query.keyword;
   try {
-    const params: SearchAttributes = {
-      page,
-      limit: pageSize,
-      name,
-      certifications,
-      education,
-      skills
-    };
-
-    const profiles = await this.profileService.searchProfiles(params);
-
+    const profiles = await this.profileService.searchProfiles(keyword);
     return profiles;
-
-  } catch (error: any) {
+  } catch (error : any) {
     return { error: error.message };
   }
 }
-
   
 
 //-----------------------------------------------------------------------------------------------//

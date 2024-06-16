@@ -100,33 +100,16 @@ class ProfileService {
         }
     }
     //-----------------------------------------------------------------------------------------------//
-    async searchProfiles(params) {
-        const { name, certifications, education, skills, page = 1, limit = 10 } = params;
-        const query = {};
-        if (name)
-            query.name = { $regex: new RegExp(name, 'i') };
-        if (certifications)
-            query.certifications = certifications;
-        if (education)
-            query.graduation = { $regex: new RegExp(education, 'i') };
-        if (skills)
-            query.skills;
-        try {
-            const candidatos = await Profile_1.ProfileModel.find(query)
-                .skip((page - 1) * limit)
-                .limit(limit);
-            const total = await Profile_1.ProfileModel.countDocuments(query);
-            return {
-                candidatos,
-                total,
-                page,
-                totalPages: Math.ceil(total / limit),
-            };
-        }
-        catch (error) {
-            throw new Error(`Erro ao buscar perfis: ${error.message}`);
-        }
+    async searchProfiles(keyword) {
+        return Profile_1.ProfileModel.find({
+            $or: [
+                { name: { $regex: keyword, $options: 'i' } },
+                { description: { $regex: keyword, $options: 'i' } },
+                { skills: { $regex: keyword, $options: 'i' } },
+                { education: { $regex: keyword, $options: 'i' } },
+                { certifications: { $regex: keyword, $options: 'i' } },
+            ]
+        });
     }
-    ;
 }
 exports.ProfileService = ProfileService;

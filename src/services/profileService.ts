@@ -15,13 +15,12 @@ interface ProfileData {
   userId: string;
 };
 
-interface SearchAttributes {
+interface searchData{
   name?: string;
+  description?: string;
   skills?: string;
   education?: string;
   certifications?: string;
-  page?: number;
-  limit?: number;
 };
 
 
@@ -131,33 +130,17 @@ export class ProfileService {
 //-----------------------------------------------------------------------------------------------//
 
 
-public async searchProfiles(params: SearchAttributes) {
-  const { name, certifications, education, skills, page = 1, limit = 10 } = params;
-
-  const query: any = {};
-
-  if (name) query.name = { $regex: new RegExp(name, 'i') };
-  if (certifications) query.certifications = certifications;
-  if (education) query.graduation = { $regex: new RegExp(education, 'i') };
-  if (skills) query.skills;
-
-  try {
-    const candidatos = await ProfileModel.find(query)
-      .skip((page - 1) * limit)
-      .limit(limit);
-
-    const total = await ProfileModel.countDocuments(query);
-
-    return {
-      candidatos,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-    };
-  } catch (error:any) {
-    throw new Error(`Erro ao buscar perfis: ${error.message}`);
-  }
-};
+public async searchProfiles(keyword: string): Promise<searchData[]> {
+  return ProfileModel.find({ 
+    $or: [
+      { name: { $regex: keyword, $options: 'i' } },
+      { description: { $regex: keyword, $options: 'i' } },
+      { skills: { $regex: keyword, $options: 'i' } },
+      { education: { $regex: keyword, $options: 'i' } },
+      { certifications: { $regex: keyword, $options: 'i' } },
+    ]
+  });
+}
 
 
 //-----------------------------------------------------------------------------------------------//

@@ -96,18 +96,7 @@ router.get("/query", async (req: Request, res: Response) => {
 
 router.get('/search', async (req: Request, res: Response) => {
   try {
-    const { page = 1, pageSize = 10, name, certifications, education, skills } = req.query;
-
-    
-    const profiles = await profileController.searchProfiles(
-      Number(page), Number(pageSize),
-      String(name),
-      String(certifications),
-      String(education),
-      String(skills)
-    );
-
-    res.status(200).json(profiles);
+    await profileController.searchProfiles(req as any, res as any);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
