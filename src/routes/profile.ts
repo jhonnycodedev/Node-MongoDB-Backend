@@ -71,7 +71,7 @@ router.patch("/update", authenticateJWT, async (req: Request, res: Response) => 
 //-----------------------------------------------------------------------------------------------//
 
 // Rota para obter apenas campos específicos dos perfis
-router.get("/fields", async (req: Request, res: Response) => {
+router.get("/fields", authenticateJWT, async (req: Request, res: Response) => {
   try {
     const response = await profileController.fields();
     res.status(200).json(response);
@@ -83,7 +83,7 @@ router.get("/fields", async (req: Request, res: Response) => {
 //-----------------------------------------------------------------------------------------------//
 
 // Rota para consultar perfis com dados populados do usuário
-router.get("/query", async (req: Request, res: Response) => {
+router.get("/query", authenticateJWT, async (req: Request, res: Response) => {
   try {
     const response = await profileController.query();
     res.status(200).json(response);
