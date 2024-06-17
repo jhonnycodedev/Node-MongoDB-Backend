@@ -89,7 +89,7 @@ export class ProfileService {
 
   public async getProfileFields() {
     try {
-      const profiles = await ProfileModel.find().select("name description skills education certifications contact image userId -_id");
+      const profiles = await ProfileModel.find().select("name description skills education certifications github linkedin image userId -_id");
       return profiles;
     } catch (error: any) {
       throw new Error(error.message);
@@ -99,7 +99,7 @@ export class ProfileService {
 //-----------------------------------------------------------------------------------------------//
   public async queryProfiles() {
     try {
-      const profiles = await ProfileModel.find().select("name description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
+      const profiles = await ProfileModel.find().select("name description skills education certifications github linkedin image userId -_id").populate("userId", "username email -_id");
       return profiles;
     } catch (error: any) {
       throw new Error(error.message);
@@ -120,23 +120,27 @@ export class ProfileService {
 //-----------------------------------------------------------------------------------------------//
 
 
-public async searchProfiles(keyword: string){
-  try{
+public async searchProfiles(keyword: string, page: number = 1, pageSize: number = 10) {
+  try {
+    const skip = (page - 1) * pageSize;
+    const profiles = await ProfileModel.find({ 
+      $or: [
+        { name: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } },
+        { skills: { $regex: keyword, $options: 'i' } },
+        { education: { $regex: keyword, $options: 'i' } },
+        { certifications: { $regex: keyword, $options: 'i' } },
+      ]
+    },{ _id: 0, userId: 0 })
+    .skip(skip)
+    .limit(pageSize);
+    
+    return profiles;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
 
-  const profiles = await ProfileModel.find({ 
-    $or: [
-      { name: { $regex: keyword, $options: 'i' } },
-      { description: { $regex: keyword, $options: 'i' } },
-      { skills: { $regex: keyword, $options: 'i' } },
-      { education: { $regex: keyword, $options: 'i' } },
-      { certifications: { $regex: keyword, $options: 'i' } },
-    ]
-  });
-  return profiles;
-} catch (error: any) {
-  throw new Error(error.message);
-}
-}
 
 
 //-----------------------------------------------------------------------------------------------//

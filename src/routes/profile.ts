@@ -97,13 +97,15 @@ router.get("/query", async (req: Request, res: Response) => {
 router.get('/search', async (req: Request, res: Response) => {
   try {
     const keyword = req.query.keyword as string;
-    const profiles = await profileController.searchProfiles(keyword);
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.pageSize as string) || 10;
+    
+    const profiles = await profileController.searchProfiles(keyword, page, pageSize);
     res.status(200).json(profiles);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
 });
-
 
 //-----------------------------------------------------------------------------------------------//
 

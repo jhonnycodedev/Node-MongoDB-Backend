@@ -146,17 +146,14 @@ export default class ProfileController {
 //-----------------------------------------------------------------------------------------------//
   
 @Get('/search')
-  public async searchProfiles(@Query() keyword: string): Promise<JsonObject>  {
-    try {
-      const profiles = await this.profileService.searchProfiles(keyword);
-      
-      return profiles;
-      
-    } catch (error: any) {
-      return { error: error.message };
-    }
+public async searchProfiles(@Query('keyword') keyword: string, @Query('page') page: number = 1, @Query('pageSize') pageSize: number = 10): Promise<JsonObject> {
+  try {
+    const profiles = await this.profileService.searchProfiles(keyword, page, pageSize);
+    return profiles;
+  } catch (error: any) {
+    return { error: error.message };
   }
-  
+}
 
 //-----------------------------------------------------------------------------------------------//
 
