@@ -96,7 +96,9 @@ router.get("/query", async (req: Request, res: Response) => {
 
 router.get('/search', async (req: Request, res: Response) => {
   try {
-    await profileController.searchProfiles(req as any, res as any);
+    const keyword = req.query.keyword as string;
+    const profiles = await profileController.searchProfiles(keyword);
+    res.status(200).json(profiles);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }

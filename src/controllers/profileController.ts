@@ -18,12 +18,6 @@ interface ProfileData {
   image?: string;
   userId: string;
 };
-interface SearchRequest extends Request {
-  query: {
-    keyword: string;
-  };
-}
-
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -151,16 +145,17 @@ export default class ProfileController {
 
 //-----------------------------------------------------------------------------------------------//
   
-@Get('search')
-public async searchProfiles(req: SearchRequest, res: Response): Promise<JsonObject> {
-  const keyword = req.query.keyword;
-  try {
-    const profiles = await this.profileService.searchProfiles(keyword);
-    return profiles;
-  } catch (error : any) {
-    return { error: error.message };
+@Get('/search')
+  public async searchProfiles(@Query() keyword: string): Promise<JsonObject>  {
+    try {
+      const profiles = await this.profileService.searchProfiles(keyword);
+      
+      return profiles;
+      
+    } catch (error: any) {
+      return { error: error.message };
+    }
   }
-}
   
 
 //-----------------------------------------------------------------------------------------------//

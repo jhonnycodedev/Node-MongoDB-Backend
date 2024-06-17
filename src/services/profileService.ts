@@ -15,16 +15,6 @@ interface ProfileData {
   userId: string;
 };
 
-interface searchData{
-  name?: string;
-  description?: string;
-  skills?: string;
-  education?: string;
-  certifications?: string;
-};
-
-
-
 export class ProfileService {
 
 //-----------------------------------------------------------------------------------------------//
@@ -99,7 +89,7 @@ export class ProfileService {
 
   public async getProfileFields() {
     try {
-      const profiles = await ProfileModel.find().select("username description skills education certifications contact image userId -_id");
+      const profiles = await ProfileModel.find().select("name description skills education certifications contact image userId -_id");
       return profiles;
     } catch (error: any) {
       throw new Error(error.message);
@@ -109,7 +99,7 @@ export class ProfileService {
 //-----------------------------------------------------------------------------------------------//
   public async queryProfiles() {
     try {
-      const profiles = await ProfileModel.find().select("username description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
+      const profiles = await ProfileModel.find().select("name description skills education certifications contact image userId -_id").populate("userId", "username email -_id");
       return profiles;
     } catch (error: any) {
       throw new Error(error.message);
@@ -130,8 +120,10 @@ export class ProfileService {
 //-----------------------------------------------------------------------------------------------//
 
 
-public async searchProfiles(keyword: string): Promise<searchData[]> {
-  return ProfileModel.find({ 
+public async searchProfiles(keyword: string){
+  try{
+
+  const profiles = await ProfileModel.find({ 
     $or: [
       { name: { $regex: keyword, $options: 'i' } },
       { description: { $regex: keyword, $options: 'i' } },
@@ -140,6 +132,10 @@ public async searchProfiles(keyword: string): Promise<searchData[]> {
       { certifications: { $regex: keyword, $options: 'i' } },
     ]
   });
+  return profiles;
+} catch (error: any) {
+  throw new Error(error.message);
+}
 }
 
 
