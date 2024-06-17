@@ -1,0 +1,569 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"JsonObject": {
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {}
+			},
+			"ProfileData": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"skills": {
+						"type": "string"
+					},
+					"education": {
+						"type": "string"
+					},
+					"certifications": {
+						"type": "string"
+					},
+					"github": {
+						"type": "string"
+					},
+					"linkedin": {
+						"type": "string"
+					},
+					"image": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "hello-express-mongo",
+		"version": "1.0.0",
+		"description": "API de rede social Scripts and Socials",
+		"license": {
+			"name": "reserved"
+		},
+		"contact": {
+			"name": "jguimaraesdev"
+		}
+	},
+	"paths": {
+		"/api/users/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"password": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									},
+									"lastname": {
+										"type": "string"
+									},
+									"username": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"password",
+									"email",
+									"lastname",
+									"username"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/users/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"password": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"password",
+									"email"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/users/findAll": {
+			"get": {
+				"operationId": "FindAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/users/findById/{id}": {
+			"get": {
+				"operationId": "FindById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/users/update": {
+			"patch": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"password": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									},
+									"lastname": {
+										"type": "string"
+									},
+									"username": {
+										"type": "string"
+									},
+									"id": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"id"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/users/delete/{id}": {
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/profiles/create": {
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"result": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProfileData"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/profiles/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"totalPages": {
+											"type": "number",
+											"format": "double"
+										},
+										"profiles": {
+											"items": {},
+											"type": "array"
+										}
+									},
+									"required": [
+										"totalPages",
+										"profiles"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/profiles/findById/{id}": {
+			"get": {
+				"operationId": "FindById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/profiles/update": {
+			"patch": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProfileData"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/profiles/delete/{id}": {
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/profiles/fields": {
+			"get": {
+				"operationId": "Fields",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/api/profiles/query": {
+			"get": {
+				"operationId": "Query",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/api/profiles/search": {
+			"get": {
+				"operationId": "SearchProfiles",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonObject"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "keyword",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
