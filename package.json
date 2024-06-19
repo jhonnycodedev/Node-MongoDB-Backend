@@ -2,6 +2,13 @@
   "name": "hello-express-mongo",
   "version": "1.0.0",
   "description": "API de rede social Scripts and Socials",
+  "license": "reserved jguimaraesdev",
+  "author": "jhonny guimaraes",
+  "contact": "jhonnycodedev@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jguimaraesdev/Node-MongoDB-Backend/"
+  },
   "main": "index.ts",
   "scripts": {
     "build": "npx tsc",
@@ -9,9 +16,6 @@
     "dev": "nodemon src/index.ts",
     "swagger": "tsoa spec"
   },
-  "author": "jguimaraesdev",
-  "license": "reserved",
-  "contact": "guimaraes286@gmail.com",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
