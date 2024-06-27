@@ -53,17 +53,24 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"securitySchemes": {
+				"bearerAuth": {
+				  "type":"http",
+				  "scheme": "bearer",
+				  "bearerFormat": "JWT"
+				}
+		}
 	},
 	"info": {
 		"title": "hello-express-mongo",
 		"version": "1.0.0",
 		"description": "API de rede social Scripts and Socials",
 		"license": {
-			"name": "reserved"
+			"name": "reserved jguimaraesdev"
 		},
 		"contact": {
-			"name": "jguimaraesdev"
+			"name": "jhonny guimaraes"
 		}
 	},
 	"paths": {
