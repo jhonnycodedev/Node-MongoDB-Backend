@@ -7,7 +7,7 @@
   "contact": "jhonnycodedev@gmail.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jguimaraesdev/Node-MongoDB-Backend/"
+    "url": "https://github.com/jhonnycodedev/next-node-mongodb-typescript/"
   },
   "main": "index.ts",
   "scripts": {
