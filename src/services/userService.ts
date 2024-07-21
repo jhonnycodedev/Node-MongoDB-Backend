@@ -56,24 +56,22 @@ export class UserService {
 
 
   public async loginUser(email: string, password: string): Promise<string | null> {
-    const user = await UserModel.findOne({ email });
-    if (!user) {
-      throw new Error("Invalid email or password");
-    }
-
-    // Compare the hashed password with the provided password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      throw new Error("Invalid email or password");
-    }
-
-    // Generate a JWT token
-    const token = jwt.sign({ id: user._id, email: user.email }, config.jwtSecret, {
-      expiresIn: "15m",
-    });
-
-    return token;
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    throw new Error("Invalid email or password");
   }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error("Invalid email or password");
+  }
+
+  const token = jwt.sign({ id: user._id, email: user.email }, config.jwtSecret, {
+    expiresIn: "15m",
+  });
+
+  return token;
+}
 
 //-----------------------------------------------------------------------------------------------//
 
