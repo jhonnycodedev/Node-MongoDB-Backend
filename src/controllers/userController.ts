@@ -39,19 +39,15 @@ export default class UserController {
 
 
   @Post("/login")
-  public async login(@Body() body: { 
-    email: string; 
-    password: string 
-  }): Promise<JsonObject> {
-    try {
-      const token = await this.userService.loginUser(body.email, body.password);
-      return { token: token, message: true };
-    } catch (error: any) {
-      return {
-        error: error.message,
-      };
-    }
+  public async login(@Body() body: { email: string; password: string }): Promise<JsonObject> {
+  try {
+    const token = await this.userService.loginUser(body.email, body.password);
+    return { token, message: 'Login successful' };
+  } catch (error: any) {
+    console.error('Login error:', error); // Log de erro para depuração
+    return { error: 'Invalid email or password' };
   }
+}
 
 //-----------------------------------------------------------------------------------------------//
 
