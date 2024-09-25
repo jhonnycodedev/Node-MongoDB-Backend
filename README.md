@@ -4,16 +4,16 @@ Uma API básica construída com Node.js , usando MongoDB como banco de dados e M
 
 ## Características
 
-Criar registros : adicione novos documentos à coleção do MongoDB.
-Ler registros : Recupere documentos com filtros opcionais.
-Atualizar registros : modificar documentos existentes.
-Excluir registros : Remove documentos da coleção.
+* Criar registros : adicione novos documentos à coleção do MongoDB.
+* Ler registros : Recupere documentos com filtros opcionais.
+* Atualizar registros : modificar documentos existentes.
+* Excluir registros : Remove documentos da coleção.
 
 ## Tecnologias
 
-Node.js : ambiente de execução JavaScript.
-Express : Estrutura web para construção de APIs.
-MongoDB : banco de dados NoSQL para armazenamento de dados.
-Mongoose : biblioteca ODM (Object Data Modeling) para MongoDB.
+* Node.js : ambiente de execução JavaScript.
+* Express : Estrutura web para construção de APIs.
+* MongoDB : banco de dados NoSQL para armazenamento de dados.
+* Mongoose : biblioteca ODM (Object Data Modeling) para MongoDB.
 
 
